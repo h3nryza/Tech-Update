@@ -1,0 +1,104 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:tech-update-sbom-2026-03-12",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-03-12T00:00:00Z",
+    "tools": [
+      {
+        "vendor": "h3nryza",
+        "name": "tech-update-sbom-generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "Tech-Update",
+      "version": "1.0.0",
+      "description": "Aggregated tech news dashboard for GitHub Pages",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/h3nryza/Tech-Update"
+        },
+        {
+          "type": "website",
+          "url": "https://h3nryza.github.io/Tech-Update/"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "alpinejs",
+      "version": "3.14.8",
+      "purl": "pkg:npm/alpinejs@3.14.8",
+      "description": "Lightweight reactive JavaScript framework",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "externalReferences": [
+        { "type": "website", "url": "https://alpinejs.dev/" },
+        { "type": "distribution", "url": "https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js" }
+      ],
+      "scope": "required",
+      "properties": [{ "name": "delivery", "value": "cdn" }]
+    },
+    {
+      "type": "library",
+      "name": "tailwindcss",
+      "version": "latest",
+      "purl": "pkg:npm/tailwindcss@latest",
+      "description": "Utility-first CSS framework",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "externalReferences": [
+        { "type": "website", "url": "https://tailwindcss.com/" },
+        { "type": "distribution", "url": "https://cdn.tailwindcss.com" }
+      ],
+      "scope": "required",
+      "properties": [{ "name": "delivery", "value": "cdn" }]
+    },
+    {
+      "type": "library",
+      "name": "jspdf",
+      "version": "2.5.2",
+      "purl": "pkg:npm/jspdf@2.5.2",
+      "description": "PDF generation library for JavaScript",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "externalReferences": [
+        { "type": "website", "url": "https://github.com/parallax/jsPDF" },
+        { "type": "distribution", "url": "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js" }
+      ],
+      "scope": "optional",
+      "properties": [{ "name": "delivery", "value": "cdn" }]
+    },
+    {
+      "type": "library",
+      "name": "jspdf-autotable",
+      "version": "3.8.4",
+      "purl": "pkg:npm/jspdf-autotable@3.8.4",
+      "description": "Table plugin for jsPDF",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "externalReferences": [
+        { "type": "website", "url": "https://github.com/simonbengtsson/jsPDF-AutoTable" },
+        { "type": "distribution", "url": "https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js" }
+      ],
+      "scope": "optional",
+      "properties": [{ "name": "delivery", "value": "cdn" }]
+    },
+    {
+      "type": "library",
+      "name": "rss-parser",
+      "version": "3.13.0",
+      "purl": "pkg:npm/rss-parser@3.13.0",
+      "description": "RSS/Atom feed parser for Node.js",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "externalReferences": [
+        { "type": "website", "url": "https://github.com/rbren/rss-parser" }
+      ],
+      "scope": "required",
+      "properties": [{ "name": "delivery", "value": "npm" }, { "name": "runtime", "value": "node-only" }]
+    }
+  ]
+}

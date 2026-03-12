@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>README — Tech Update</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-900 min-h-screen">
+  <div class="max-w-3xl mx-auto px-6 py-12">
+    <h1 class="text-4xl font-bold mb-2">Tech Update</h1>
+    <p class="text-lg text-gray-500 mb-8">Aggregated tech news dashboard — 13 products, 9 topics, 386+ sources</p>
+
+    <div class="flex flex-wrap gap-2 mb-8">
+      <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">GitHub Pages</span>
+      <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Alpine.js</span>
+      <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">Tailwind CSS</span>
+      <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">Node.js</span>
+    </div>
+
+    <h2 class="text-2xl font-bold mt-10 mb-4">What It Does</h2>
+    <ul class="list-disc list-inside space-y-2 text-gray-700 mb-8">
+      <li>Aggregates news from 386+ curated sources across cloud, DevOps, AI, and productivity</li>
+      <li>22-tab dashboard: 13 products (AWS, Azure, Terraform, etc.) + 9 topics (SRE, DevOps, SecOps, etc.)</li>
+      <li>Colour-coded tags: #new, #update, #feature, #breaking-change, #security, #zero-day, #tutorial, #podcast, #article, #video, #social</li>
+      <li>Search by keywords or #tags, filter by date range</li>
+      <li>Export to CSV, JSON, or PDF</li>
+      <li>Dark/light mode with system preference detection</li>
+      <li>Fully responsive: table on desktop, cards on mobile</li>
+      <li>365-day rolling archive with weekly snapshots</li>
+    </ul>
+
+    <h2 class="text-2xl font-bold mt-10 mb-4">Quick Start</h2>
+    <div class="bg-gray-900 text-green-400 rounded-xl p-6 font-mono text-sm mb-8 overflow-x-auto">
+      <div class="text-gray-500"># Install collection dependencies</div>
+      <div>cd scripts && npm install</div>
+      <br>
+      <div class="text-gray-500"># Parse sources from markdown</div>
+      <div>node parse-sources.js</div>
+      <br>
+      <div class="text-gray-500"># Collect news from feeds</div>
+      <div>node collect.js</div>
+      <br>
+      <div class="text-gray-500"># Build search index</div>
+      <div>node build.js</div>
+      <br>
+      <div class="text-gray-500"># Open the dashboard</div>
+      <div>open ../index.html</div>
+    </div>
+
+    <h2 class="text-2xl font-bold mt-10 mb-4">Project Structure</h2>
+    <div class="bg-gray-50 rounded-xl p-6 font-mono text-sm text-gray-700 mb-8">
+      <pre>
+Tech-Update/
+├── index.html              # Main SPA entry point
+├── css/style.css           # Custom styles
+├── js/
+│   ├── app.js              # Alpine.js application
+│   ├── tabs.js             # Tab definitions & tag colours
+│   ├── search.js           # Search & filter utilities
+│   ├── export.js           # CSV/JSON/PDF export
+│   └── theme.js            # Dark/light mode
+├── data/
+│   ├── sources.json        # All tracked sources
+│   ├── news.json           # Current news items
+│   ├── index.json          # Search index
+│   ├── stats.json          # Collection stats
+│   └── archive/            # Weekly snapshots
+├── scripts/
+│   ├── package.json        # Node.js dependencies
+│   ├── parse-sources.js    # Markdown → JSON parser
+│   ├── collect.js          # RSS/Reddit feed collector
+│   └── build.js            # Index builder & archiver
+├── products/               # Per-product source files
+├── topics/                 # Per-topic source files
+├── .henry/                 # Project documentation
+├── .security/              # Security audit files
+├── .github/workflows/      # GitHub Actions
+├── FAQs.md
+├── UPDATING.md
+├── sites_used.md
+└── sites_used.csv
+      </pre>
+    </div>
+
+    <h2 class="text-2xl font-bold mt-10 mb-4">Products Tracked</h2>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-8">
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">☁️ AWS</div>
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">🔷 Azure</div>
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">🏗️ Terraform</div>
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">🔶 Cloudflare</div>
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">🐶 Datadog</div>
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">🤖 Claude</div>
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">♊ Gemini</div>
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">🧠 OpenAI</div>
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">🤝 GitHub Copilot</div>
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">💬 Slack</div>
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">💎 Obsidian</div>
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">📝 Notion</div>
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">💻 VS Code</div>
+    </div>
+
+    <h2 class="text-2xl font-bold mt-10 mb-4">Topics Tracked</h2>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-8">
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">🔧 SRE</div>
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">🏭 Platform Engineering</div>
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">♾️ DevOps</div>
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">🛡️ SecOps</div>
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">⚙️ Software Engineering</div>
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">🤖 Automation</div>
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">🎯 Orchestration</div>
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">🌐 Cloud Architecture</div>
+      <div class="bg-gray-50 rounded-lg px-4 py-3 text-sm">📐 Software Architecture</div>
+    </div>
+
+    <h2 class="text-2xl font-bold mt-10 mb-4">Documentation</h2>
+    <table class="w-full text-sm mb-8">
+      <tr class="border-b"><td class="py-2 font-medium">UPDATING.md</td><td class="py-2 text-gray-500">How to run collection and set up automation</td></tr>
+      <tr class="border-b"><td class="py-2 font-medium">FAQs.md</td><td class="py-2 text-gray-500">Frequently asked questions</td></tr>
+      <tr class="border-b"><td class="py-2 font-medium">sites_used.md</td><td class="py-2 text-gray-500">Complete list of all tracked sources</td></tr>
+      <tr class="border-b"><td class="py-2 font-medium">.henry/</td><td class="py-2 text-gray-500">Project documentation (prompt, learning, memory, changelog)</td></tr>
+      <tr class="border-b"><td class="py-2 font-medium">.security/</td><td class="py-2 text-gray-500">Security audit report, SBOM, dashboard</td></tr>
+    </table>
+
+    <h2 class="text-2xl font-bold mt-10 mb-4">License</h2>
+    <p class="text-gray-600">MIT</p>
+
+    <div class="mt-12 pt-6 border-t text-center text-sm text-gray-400">
+      Built by <a href="https://github.com/h3nryza" class="text-blue-500 hover:underline">h3nryza</a>
+    </div>
+  </div>
+</body>
+</html>

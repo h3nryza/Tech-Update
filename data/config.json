@@ -1,0 +1,372 @@
+{
+  "products": [
+    {
+      "id": "aws",
+      "label": "AWS",
+      "icon": "☁️",
+      "tags": [
+        "aws"
+      ],
+      "children": [
+        {
+          "id": "aws-security",
+          "label": "Security Blog",
+          "icon": "🛡️",
+          "tags": [
+            "aws",
+            "secops"
+          ],
+          "filter_source": "AWS Security Blog"
+        },
+        {
+          "id": "aws-architecture",
+          "label": "Architecture Blog",
+          "icon": "🏛️",
+          "tags": [
+            "aws",
+            "cloud-architecture"
+          ],
+          "filter_source": "AWS Architecture Blog"
+        },
+        {
+          "id": "aws-devops",
+          "label": "DevOps Blog",
+          "icon": "♾️",
+          "tags": [
+            "aws",
+            "devops"
+          ],
+          "filter_source": "AWS DevOps Blog"
+        },
+        {
+          "id": "aws-compute",
+          "label": "Compute Blog",
+          "icon": "⚡",
+          "tags": [
+            "aws"
+          ],
+          "filter_source": "AWS Compute Blog"
+        },
+        {
+          "id": "aws-containers",
+          "label": "Containers Blog",
+          "icon": "📦",
+          "tags": [
+            "aws"
+          ],
+          "filter_source": "AWS Containers Blog"
+        },
+        {
+          "id": "aws-networking",
+          "label": "Networking Blog",
+          "icon": "🌐",
+          "tags": [
+            "aws"
+          ],
+          "filter_source": "AWS Networking Blog"
+        }
+      ]
+    },
+    {
+      "id": "azure",
+      "label": "Azure",
+      "icon": "🔷",
+      "tags": [
+        "azure"
+      ]
+    },
+    {
+      "id": "terraform",
+      "label": "Terraform",
+      "icon": "🏗️",
+      "tags": [
+        "terraform"
+      ],
+      "children": [
+        {
+          "id": "tf-aws-provider",
+          "label": "AWS Provider",
+          "icon": "☁️",
+          "tags": [
+            "terraform",
+            "aws"
+          ],
+          "filter_source": "Terraform AWS Provider"
+        },
+        {
+          "id": "tf-azure-provider",
+          "label": "Azure Provider",
+          "icon": "🔷",
+          "tags": [
+            "terraform",
+            "azure"
+          ],
+          "filter_source": "Terraform Azure Provider"
+        },
+        {
+          "id": "tf-cloudflare-provider",
+          "label": "Cloudflare Provider",
+          "icon": "🔶",
+          "tags": [
+            "terraform",
+            "cloudflare"
+          ],
+          "filter_source": "Terraform Cloudflare Provider"
+        },
+        {
+          "id": "tf-google-provider",
+          "label": "Google Provider",
+          "icon": "🔵",
+          "tags": [
+            "terraform"
+          ],
+          "filter_source": "Terraform Google Provider"
+        }
+      ]
+    },
+    {
+      "id": "cloudflare",
+      "label": "Cloudflare",
+      "icon": "🔶",
+      "tags": [
+        "cloudflare"
+      ]
+    },
+    {
+      "id": "datadog",
+      "label": "Datadog",
+      "icon": "🐶",
+      "tags": [
+        "datadog"
+      ]
+    },
+    {
+      "id": "claude",
+      "label": "Claude",
+      "icon": "🤖",
+      "tags": [
+        "claude"
+      ]
+    },
+    {
+      "id": "gemini",
+      "label": "Gemini",
+      "icon": "♊",
+      "tags": [
+        "gemini"
+      ]
+    },
+    {
+      "id": "openai",
+      "label": "OpenAI",
+      "icon": "🧠",
+      "tags": [
+        "openai"
+      ]
+    },
+    {
+      "id": "github-copilot",
+      "label": "GitHub Copilot",
+      "icon": "🤝",
+      "tags": [
+        "github-copilot"
+      ]
+    },
+    {
+      "id": "slack",
+      "label": "Slack",
+      "icon": "💬",
+      "tags": [
+        "slack"
+      ]
+    },
+    {
+      "id": "obsidian",
+      "label": "Obsidian",
+      "icon": "💎",
+      "tags": [
+        "obsidian"
+      ]
+    },
+    {
+      "id": "notion",
+      "label": "Notion",
+      "icon": "📝",
+      "tags": [
+        "notion"
+      ]
+    },
+    {
+      "id": "vs-code",
+      "label": "VS Code",
+      "icon": "💻",
+      "tags": [
+        "vs-code"
+      ]
+    }
+  ],
+  "topics": [
+    {
+      "id": "sre",
+      "label": "SRE",
+      "icon": "🔧",
+      "tags": [
+        "sre"
+      ]
+    },
+    {
+      "id": "platform-engineering",
+      "label": "Platform Eng",
+      "icon": "🏭",
+      "tags": [
+        "platform-engineering"
+      ]
+    },
+    {
+      "id": "devops",
+      "label": "DevOps",
+      "icon": "♾️",
+      "tags": [
+        "devops"
+      ]
+    },
+    {
+      "id": "secops",
+      "label": "SecOps",
+      "icon": "🛡️",
+      "tags": [
+        "secops"
+      ]
+    },
+    {
+      "id": "software-engineering",
+      "label": "Software Eng",
+      "icon": "⚙️",
+      "tags": [
+        "software-engineering"
+      ]
+    },
+    {
+      "id": "automation",
+      "label": "Automation",
+      "icon": "🤖",
+      "tags": [
+        "automation"
+      ]
+    },
+    {
+      "id": "orchestration",
+      "label": "Orchestration",
+      "icon": "🎯",
+      "tags": [
+        "orchestration"
+      ]
+    },
+    {
+      "id": "cloud-architecture",
+      "label": "Cloud Arch",
+      "icon": "🌐",
+      "tags": [
+        "cloud-architecture"
+      ]
+    },
+    {
+      "id": "software-architecture",
+      "label": "Software Arch",
+      "icon": "📐",
+      "tags": [
+        "software-architecture"
+      ]
+    }
+  ],
+  "software": [
+    {
+      "id": "java",
+      "label": "Java / JDK",
+      "icon": "☕",
+      "tags": [
+        "java"
+      ]
+    },
+    {
+      "id": "python",
+      "label": "Python",
+      "icon": "🐍",
+      "tags": [
+        "python"
+      ]
+    },
+    {
+      "id": "rust",
+      "label": "Rust",
+      "icon": "🦀",
+      "tags": [
+        "rust"
+      ]
+    },
+    {
+      "id": "go",
+      "label": "Go",
+      "icon": "🐹",
+      "tags": [
+        "go"
+      ]
+    },
+    {
+      "id": "nodejs",
+      "label": "Node.js",
+      "icon": "💚",
+      "tags": [
+        "nodejs"
+      ]
+    },
+    {
+      "id": "typescript",
+      "label": "TypeScript",
+      "icon": "🔷",
+      "tags": [
+        "typescript"
+      ]
+    },
+    {
+      "id": "dotnet",
+      "label": ".NET",
+      "icon": "🟣",
+      "tags": [
+        "dotnet"
+      ]
+    },
+    {
+      "id": "docker",
+      "label": "Docker",
+      "icon": "🐳",
+      "tags": [
+        "docker"
+      ]
+    },
+    {
+      "id": "kubernetes",
+      "label": "Kubernetes",
+      "icon": "⎈",
+      "tags": [
+        "kubernetes"
+      ]
+    },
+    {
+      "id": "maven",
+      "label": "Maven",
+      "icon": "🪶",
+      "tags": [
+        "maven"
+      ]
+    },
+    {
+      "id": "gradle",
+      "label": "Gradle",
+      "icon": "🐘",
+      "tags": [
+        "gradle"
+      ]
+    }
+  ]
+}

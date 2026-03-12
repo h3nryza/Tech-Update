@@ -1,0 +1,15 @@
+{
+  "name": "tech-update-scripts",
+  "version": "1.0.0",
+  "description": "Data collection and build scripts for Tech Update",
+  "type": "module",
+  "scripts": {
+    "parse": "node parse-sources.js",
+    "collect": "node collect.js",
+    "build": "node build.js",
+    "full": "node collect.js && node build.js"
+  },
+  "dependencies": {
+    "rss-parser": "^3.13.0"
+  }
+}
