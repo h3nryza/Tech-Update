@@ -1,0 +1,56 @@
+# PR Labeler — auto-labels PRs based on changed files
+# Used by: .github/workflows/labeler.yml
+
+# Data pipeline
+data:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'scripts/**'
+      - 'data/sources.json'
+      - 'data/config.json'
+
+# Frontend
+frontend:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'index.html'
+      - 'js/**'
+      - 'css/**'
+
+# CI/CD
+ci:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '.github/**'
+
+# Documentation
+docs:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '*.md'
+      - 'HOW_TO_ADD.md'
+      - 'ARCHITECTURE.md'
+      - 'UPDATING.md'
+      - 'FAQs.md'
+
+# Security
+security:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '.security/**'
+      - '.github/dependabot.yml'
+
+# New sources
+sources:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'data/sources.json'
+      - 'products/**'
+      - 'topics/**'
+
+# Config changes
+config:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'data/config.json'
+      - 'scripts/package.json'

@@ -1,0 +1,63 @@
+# Release Drafter config — auto-drafts release notes from merged PRs
+# Used by: .github/workflows/release-drafter.yml
+
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+
+categories:
+  - title: 'New Sources & Data'
+    labels:
+      - 'sources'
+      - 'data'
+  - title: 'Frontend'
+    labels:
+      - 'frontend'
+      - 'enhancement'
+  - title: 'Bug Fixes'
+    labels:
+      - 'bug'
+      - 'fix'
+  - title: 'Security'
+    labels:
+      - 'security'
+      - 'dependencies'
+  - title: 'CI/CD'
+    labels:
+      - 'ci'
+  - title: 'Documentation'
+    labels:
+      - 'docs'
+  - title: 'Config & Infrastructure'
+    labels:
+      - 'config'
+
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&'
+
+version-resolver:
+  major:
+    labels:
+      - 'major'
+      - 'breaking'
+  minor:
+    labels:
+      - 'minor'
+      - 'enhancement'
+      - 'feature'
+      - 'sources'
+  patch:
+    labels:
+      - 'patch'
+      - 'bug'
+      - 'fix'
+      - 'dependencies'
+      - 'docs'
+      - 'ci'
+  default: patch
+
+template: |
+  ## What's Changed
+
+  $CHANGES
+
+  **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
