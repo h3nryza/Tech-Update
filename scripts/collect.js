@@ -155,6 +155,13 @@ function generateReleaseTldr(content, contentSnippet, title, maxLen = 1200) {
 // Extract version string from title (e.g., "v1.14.7", "6.36.0", "Python 3.15.0a7")
 function extractVersion(title) {
   if (!title) return null;
+  // Go-style: go1.25.8, go1.26.1 — prefer the longest match (3-part over 2-part)
+  const goMatches = [...title.matchAll(/go(\d+\.\d+(?:\.\d+)?)/gi)];
+  if (goMatches.length > 0) {
+    // Pick the longest version string (e.g., 1.25.8 over 1.25)
+    const best = goMatches.reduce((a, b) => a[1].length >= b[1].length ? a : b);
+    return best[1];
+  }
   // Match patterns like v1.2.3, 1.2.3, v1.2.3-beta.1, 1.2.3a7, 1.2.3-rc1
   const match = title.match(/v?(\d+\.\d+(?:\.\d+)?(?:[-.]?(?:alpha|beta|rc|a|b|dev|pre|snapshot|M)\d*(?:[.-]\d+)?)?)/i);
   if (match) return match[1];

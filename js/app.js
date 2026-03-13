@@ -68,8 +68,12 @@ document.addEventListener('alpine:init', function() {
         window.loadTabConfig().then(function() {
           self.tabs = window.TABS;
           self.tagColors = window.TAG_COLORS;
+          // Load data after tabs so counts render correctly
+          self.loadData();
+        }).catch(function() {
+          // Fallback: load data with default tabs
+          self.loadData();
         });
-        this.loadData();
 
         // Restore column order and widths from localStorage
         var saved = localStorage.getItem('columnOrder');

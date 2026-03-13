@@ -1,6 +1,6 @@
 {
   "generated": "2026-03-12T19:42:26.523Z",
-  "total": 434,
+  "total": 440,
   "sources": [
     {
       "id": "89cb9da555e3cf0c",
@@ -5359,6 +5359,82 @@
       "tags": [
         "typescript"
       ]
+    },
+    {
+      "name": "Spring Boot Releases",
+      "type": "blog",
+      "url": "https://github.com/spring-projects/spring-boot",
+      "rss_url": "https://github.com/spring-projects/spring-boot/releases.atom",
+      "frequency": "varies",
+      "popularity": "high",
+      "tags": [
+        "java"
+      ],
+      "id": "bcffb9c9c445"
+    },
+    {
+      "name": "Helm Releases",
+      "type": "blog",
+      "url": "https://github.com/helm/helm",
+      "rss_url": "https://github.com/helm/helm/releases.atom",
+      "frequency": "varies",
+      "popularity": "high",
+      "tags": [
+        "kubernetes"
+      ],
+      "id": "de82663542a7"
+    },
+    {
+      "name": "React Releases",
+      "type": "blog",
+      "url": "https://github.com/facebook/react",
+      "rss_url": "https://github.com/facebook/react/releases.atom",
+      "frequency": "varies",
+      "popularity": "high",
+      "tags": [
+        "nodejs",
+        "typescript"
+      ],
+      "id": "442b99c5ab7d"
+    },
+    {
+      "name": "Angular Releases",
+      "type": "blog",
+      "url": "https://github.com/angular/angular",
+      "rss_url": "https://github.com/angular/angular/releases.atom",
+      "frequency": "varies",
+      "popularity": "high",
+      "tags": [
+        "nodejs",
+        "typescript"
+      ],
+      "id": "9cbe205a8df2"
+    },
+    {
+      "name": "Vue.js Releases",
+      "type": "blog",
+      "url": "https://github.com/vuejs/core",
+      "rss_url": "https://github.com/vuejs/core/releases.atom",
+      "frequency": "varies",
+      "popularity": "high",
+      "tags": [
+        "nodejs",
+        "typescript"
+      ],
+      "id": "1b7f02a611c6"
+    },
+    {
+      "name": "Terraform Provider AWS Changelog",
+      "type": "blog",
+      "url": "https://github.com/hashicorp/terraform-provider-aws",
+      "rss_url": "https://github.com/hashicorp/terraform-provider-aws/releases.atom",
+      "frequency": "weekly",
+      "popularity": "high",
+      "tags": [
+        "terraform",
+        "aws"
+      ],
+      "id": "e4976266a9ab"
     }
   ]
 }
