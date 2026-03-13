@@ -15,7 +15,7 @@ All data collection happens server-side via Node.js scripts running in GitHub Ac
 ```
 +---------------------------+       +----------------------------+
 |   DATA SOURCES            |       |   GITHUB ACTIONS           |
-|                           |       |   (Daily 06:00 UTC)        |
+|                           |       |   (Daily 04:00 UTC)        |
 |  RSS / Atom Feeds  -------+------>|                            |
 |  GitHub Releases   -------+------>|  1. parse-sources.js       |
 |  YouTube Channels  -------+------>|  2. collect.js             |
@@ -80,18 +80,49 @@ Tech-Update/
 |   |-- cron-manager.sh     Local cron management (alternative to Actions)
 |   |-- gen-sites-used.js   Generates the sites_used.csv / sites_used.md reports
 |   |-- package.json        Node.js dependencies (rss-parser)
-|-- .github/workflows/
-|   |-- collect.yml         Daily collection pipeline (06:00 UTC / 08:00 SAST)
-|   |-- pages.yml           Auto-deploy to GitHub Pages on push to main
+|-- .github/
+|   |-- workflows/
+|   |   |-- collect.yml         Daily collection pipeline (04:00 UTC / 06:00 SAST)
+|   |   |-- pages.yml           Auto-deploy to GitHub Pages on push to main
+|   |   |-- labeler.yml         Auto-labels PRs based on changed files
+|   |   |-- release-drafter.yml Auto-drafts release notes from merged PRs
+|   |-- labeler.yml             Labeler rules (file patterns -> labels)
+|   |-- release-drafter.yml     Release drafter config (categories, version resolver)
+|   |-- dependabot.yml          Weekly npm + GitHub Actions dependency updates
 |-- products/               Static product-specific pages (legacy/supplementary)
 |-- topics/                 Static topic-specific pages (legacy/supplementary)
 |-- .security/              Security configuration and policies
 |-- .henry/                 Personal configuration
+|-- RELEASE_STRATEGY.md     Versioning, branching, and release process
 ```
+
+## Repository Security & Governance
+
+The following protections are enabled on the repository:
+
+| Feature | Status |
+|---------|--------|
+| Branch protection on `main` | Enabled (1 approving review, dismiss stale reviews, no force push) |
+| Dependabot security updates | Enabled |
+| Dependabot alerts | Enabled |
+| Secret scanning | Enabled |
+| Secret scanning push protection | Enabled |
+| PR auto-labeler | Enabled (labels by changed files) |
+| Release drafter | Enabled (auto-drafts release notes) |
+
+## Release Strategy
+
+See [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) for full details. Summary:
+
+- **SemVer**: `MAJOR.MINOR.PATCH`
+- **Auto-labeling**: PRs labeled by file changes (`data`, `frontend`, `ci`, `docs`, `security`, `sources`, `config`)
+- **Release drafter**: merges to `main` auto-draft release notes grouped by label
+- **Version bumps**: `breaking` -> major, `feature`/`sources` -> minor, `fix`/`deps` -> patch
+- **Branch naming**: `feature/*`, `fix/*`, `chore/*`, `docs/*`, `sources/*`
 
 ## Pipeline: How Data Collection Works
 
-The GitHub Actions workflow (`.github/workflows/collect.yml`) runs **daily at 06:00 UTC (08:00 SAST)** and can also be triggered manually via `workflow_dispatch`.
+The GitHub Actions workflow (`.github/workflows/collect.yml`) runs **daily at 04:00 UTC (06:00 SAST)** and can also be triggered manually via `workflow_dispatch`.
 
 ### Steps
 
@@ -107,7 +138,7 @@ The push to `main` then triggers the **pages deployment workflow** (`.github/wor
 
 ## How config.json Drives the UI
 
-`data/config.json` is the single source of truth for what tabs appear in the sidebar. It has two top-level keys:
+`data/config.json` is the single source of truth for what tabs appear in the sidebar. It has three top-level keys:
 
 ### products
 
@@ -142,12 +173,22 @@ An array of topic definitions. Each topic becomes a tab in the "Topics" section 
 { "id": "sre", "label": "SRE", "icon": "...", "tags": ["sre"] }
 ```
 
+### software
+
+An array of software/language/runtime definitions. Each entry becomes a tab in the "Software" section.
+
+```json
+{ "id": "java", "label": "Java / JDK", "icon": "...", "tags": ["java"] }
+```
+
+Current software tabs: Java, Python, Rust, Go, Node.js, TypeScript, .NET, Docker, Kubernetes, Maven, Gradle.
+
 ### How tabs.js loads config
 
 `js/tabs.js` contains `loadTabConfig()` which:
 1. Fetches `data/config.json`.
-2. Iterates over `products` and `topics`.
-3. Maps each entry into a flat tab array with a `group` field (`'products'` or `'topics'`).
+2. Iterates over `products`, `topics`, and `software`.
+3. Maps each entry into a flat tab array with a `group` field (`'products'`, `'topics'`, or `'software'`).
 4. Children are added both nested (for sidebar display) and as standalone tabs (for filtering).
 5. Falls back to hardcoded `DEFAULT_TABS` if the fetch fails.
 
@@ -165,7 +206,8 @@ Each item in `news.json` has these fields:
 | `source`      | string     | ID of the source (matches `sources.json` entry)       |
 | `source_name` | string     | Human-readable source name                            |
 | `published`   | string     | ISO 8601 date string                                  |
-| `tldr`        | string     | Auto-generated summary (up to 800 chars, 5 sentences) |
+| `tldr`        | string     | Auto-generated summary (up to 800 chars; up to 1200 chars for GitHub releases with changelog details) |
+| `version`     | string/null| Extracted version string (e.g., "1.14.7") or null     |
 | `tags`        | string[]   | Array of tags: product/topic IDs + `#type` tags       |
 | `type`        | string     | Content type: article, video, podcast, etc.           |
 | `views`       | number/null| View count (YouTube) or null                          |
@@ -173,6 +215,7 @@ Each item in `news.json` has these fields:
 Tags fall into two categories:
 - **Product/topic tags**: `aws`, `terraform`, `sre`, etc. -- used for tab filtering.
 - **Content tags** (prefixed with `#`): `#article`, `#video`, `#release`, `#security`, `#breaking-change`, `#zero-day`, `#tutorial`, `#new`, `#update`, `#podcast`, `#social`.
+- **Stability tags**: `#stable`, `#beta`, `#alpha` — auto-classified from version strings on release items.
 
 ### sources.json source
 
