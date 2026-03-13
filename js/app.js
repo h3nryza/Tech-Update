@@ -409,6 +409,90 @@ document.addEventListener('alpine:init', function() {
         window.exportPDF(this.filteredItems, 'tech-update-' + this.activeTab, title);
       },
 
+      // Share
+      shareItem: null, // currently open share dropdown item id
+      shareToast: '',
+
+      toggleShareMenu: function(itemId) {
+        this.shareItem = this.shareItem === itemId ? null : itemId;
+      },
+
+      shareVia: function(platform, item) {
+        var title = encodeURIComponent(item.title);
+        var url = encodeURIComponent(item.url);
+        var text = encodeURIComponent(item.title + ' — ' + (item.tldr || '').slice(0, 100));
+        var pageUrl = '';
+
+        switch (platform) {
+          case 'copy':
+            navigator.clipboard.writeText(item.url).then(function() {});
+            this.showShareToast('Link copied!');
+            break;
+          case 'email':
+            window.open('mailto:?subject=' + title + '&body=' + text + '%0A%0A' + url);
+            break;
+          case 'teams':
+            window.open('https://teams.microsoft.com/share?href=' + url + '&msgText=' + title);
+            break;
+          case 'slack':
+            window.open('https://slack.com/share?url=' + url + '&text=' + title);
+            break;
+          case 'x':
+            window.open('https://x.com/intent/tweet?text=' + title + '&url=' + url);
+            break;
+          case 'linkedin':
+            window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + url);
+            break;
+          case 'reddit':
+            window.open('https://www.reddit.com/submit?url=' + url + '&title=' + title);
+            break;
+          case 'whatsapp':
+            window.open('https://wa.me/?text=' + title + '%20' + url);
+            break;
+          case 'telegram':
+            window.open('https://t.me/share/url?url=' + url + '&text=' + title);
+            break;
+        }
+        this.shareItem = null;
+      },
+
+      sharePageVia: function(platform) {
+        var pageUrl = window.location.href;
+        var title = 'Tech Update — ' + this.activeTabDef.label;
+        var encUrl = encodeURIComponent(pageUrl);
+        var encTitle = encodeURIComponent(title);
+
+        switch (platform) {
+          case 'copy':
+            navigator.clipboard.writeText(pageUrl).then(function() {});
+            this.showShareToast('Page link copied!');
+            break;
+          case 'email':
+            window.open('mailto:?subject=' + encTitle + '&body=Check%20out%20this%20tech%20update%3A%0A' + encUrl);
+            break;
+          case 'teams':
+            window.open('https://teams.microsoft.com/share?href=' + encUrl + '&msgText=' + encTitle);
+            break;
+          case 'slack':
+            window.open('https://slack.com/share?url=' + encUrl + '&text=' + encTitle);
+            break;
+          case 'x':
+            window.open('https://x.com/intent/tweet?text=' + encTitle + '&url=' + encUrl);
+            break;
+          case 'linkedin':
+            window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encUrl);
+            break;
+        }
+        this.showSharePage = false;
+      },
+
+      showSharePage: false,
+      showShareToast: function(msg) {
+        var self = this;
+        self.shareToast = msg;
+        setTimeout(function() { self.shareToast = ''; }, 2000);
+      },
+
       // Debounced search
       searchDebounceTimer: null,
       onSearchInput: function(e) {
