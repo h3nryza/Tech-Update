@@ -35,7 +35,7 @@ A "source" is an RSS feed, blog, YouTube channel, or newsletter that the system 
    node collect.js
    ```
 
-6. Otherwise, the daily pipeline picks it up automatically at 8am SAST.
+6. Otherwise, the daily pipeline picks it up automatically at 06:00 SAST.
 
 ### Option B: Edit sources.json Directly
 
@@ -211,7 +211,7 @@ This is how sub-tabs show a focused subset of a parent's content.
 
 ## Adding a New Section
 
-Sections are the top-level groupings in the sidebar. Currently there are two: **Products** and **Topics**. You might add a third like "Software" or "Platforms".
+Sections are the top-level groupings in the sidebar. Currently there are three: **Products**, **Topics**, and **Software**. You might add more like "Platforms" or "Frameworks".
 
 This requires changes to four files.
 
@@ -297,7 +297,7 @@ Understanding the deployment cycle helps you know when your changes take effect.
 
 ### The Daily Cycle
 
-1. **GitHub Actions** runs the collection workflow every day at **06:00 UTC (08:00 SAST)**.
+1. **GitHub Actions** runs the collection workflow every day at **04:00 UTC (06:00 SAST)**.
 2. The pipeline fetches all RSS feeds defined in `data/sources.json`.
 3. New items are added to `data/news.json`.
 4. The pipeline commits and pushes updated `data/` files to the `main` branch.
@@ -308,7 +308,7 @@ Understanding the deployment cycle helps you know when your changes take effect.
 | Change                        | When it appears on the site                   |
 |-------------------------------|-----------------------------------------------|
 | Edit `config.json` (new tab)  | Next page load after the commit is on `main`  |
-| Add a source                  | Data arrives on the next collection run (8am SAST), then shows on next page load |
+| Add a source                  | Data arrives on the next collection run (06:00 SAST), then shows on next page load |
 | Edit `index.html` or `js/`    | Next page load after the commit is on `main`  |
 | Add a sub-tab                 | Tab appears immediately on next load; data appears after next collection run if the source is new |
 
@@ -339,3 +339,27 @@ Or trigger the GitHub Actions workflow manually from the Actions tab in the repo
 | Change export formats           | `js/export.js`              |
 | Change collection logic         | `scripts/collect.js`        |
 | Change the daily schedule       | `.github/workflows/collect.yml` |
+
+---
+
+## Contributing via Pull Requests
+
+The `main` branch is protected. All changes should go through PRs:
+
+1. Create a branch: `git checkout -b feature/add-spring-boot` or `sources/add-medium-blogs`
+2. Make your changes and push: `git push -u origin feature/add-spring-boot`
+3. Open a PR — it will be **auto-labeled** based on changed files (e.g., `sources`, `frontend`, `docs`)
+4. Get 1 approval, then merge
+5. The **release drafter** auto-updates a draft release with your PR grouped by category
+
+### Branch naming convention
+
+| Prefix | Use for |
+|--------|---------|
+| `feature/*` | New functionality |
+| `fix/*` | Bug fixes |
+| `chore/*` | Maintenance, deps, CI |
+| `docs/*` | Documentation only |
+| `sources/*` | Adding/updating sources |
+
+See [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) for the full versioning and release process.
