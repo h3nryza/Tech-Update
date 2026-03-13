@@ -34,6 +34,17 @@ var DEFAULT_TABS = [
   { id: 'orchestration', label: 'Orchestration', icon: '🎯', group: 'topics', tags: ['orchestration'] },
   { id: 'cloud-architecture', label: 'Cloud Arch', icon: '🌐', group: 'topics', tags: ['cloud-architecture'] },
   { id: 'software-architecture', label: 'Software Arch', icon: '📐', group: 'topics', tags: ['software-architecture'] },
+  { id: 'java', label: 'Java / JDK', icon: '☕', group: 'software', tags: ['java'] },
+  { id: 'python', label: 'Python', icon: '🐍', group: 'software', tags: ['python'] },
+  { id: 'rust', label: 'Rust', icon: '🦀', group: 'software', tags: ['rust'] },
+  { id: 'go', label: 'Go', icon: '🐹', group: 'software', tags: ['go'] },
+  { id: 'nodejs', label: 'Node.js', icon: '💚', group: 'software', tags: ['nodejs'] },
+  { id: 'typescript', label: 'TypeScript', icon: '🔷', group: 'software', tags: ['typescript'] },
+  { id: 'dotnet', label: '.NET', icon: '🟣', group: 'software', tags: ['dotnet'] },
+  { id: 'docker', label: 'Docker', icon: '🐳', group: 'software', tags: ['docker'] },
+  { id: 'kubernetes', label: 'Kubernetes', icon: '⎈', group: 'software', tags: ['kubernetes'] },
+  { id: 'maven', label: 'Maven', icon: '🪶', group: 'software', tags: ['maven'] },
+  { id: 'gradle', label: 'Gradle', icon: '🐘', group: 'software', tags: ['gradle'] },
 ];
 
 // Start with defaults, then load config.json asynchronously
