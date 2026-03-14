@@ -6,6 +6,16 @@
   <title>Tech Update — Weekly Report</title>
   <meta name="description" content="Aggregated tech news across products and topics, updated weekly.">
 
+  <!-- Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com 'unsafe-eval';
+    style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com;
+    img-src 'self' data:;
+    connect-src 'self';
+    font-src 'self';
+  ">
+
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -19,9 +29,13 @@
     };
   </script>
 
-  <!-- jsPDF + AutoTable for PDF export -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js"></script>
+  <!-- jsPDF + AutoTable for PDF export (SRI protected) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"
+          integrity="sha384-5MXQT3yrGpx6/FO6Z5JlMsn1xsN/OggV+b88W2CfpNqmvPfmv7JW/O8x78GzptfE"
+          crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js"
+          integrity="sha384-Xl/CUCfJbzsngMp0CFxkmF0VW/8C160IsGujqeQlIhaGxKz2+JsIGORFqtCPeldF"
+          crossorigin="anonymous"></script>
 
   <!-- App JS (must load before Alpine) -->
   <script src="js/tabs.js"></script>
@@ -30,25 +44,39 @@
   <script src="js/export.js"></script>
   <script src="js/app.js"></script>
 
-  <!-- Alpine.js collapse plugin + core -->
-  <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.14.8/dist/cdn.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <!-- Alpine.js collapse plugin + core (SRI protected) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.14.8/dist/cdn.min.js"
+          integrity="sha384-NArNwzWsUSF+kY2lgW4YriEkjLqi+J+za6HrENUn/3nZqkBnWbxV22kCJEK5Uu6n"
+          crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"
+          integrity="sha384-X9kJyAubVxnP0hcA+AMMs21U445qsnqhnUF8EBlEpP3a42Kh/JwWjlv2ZcvGfphb"
+          crossorigin="anonymous"></script>
 
+  <!-- Design tokens first, then component styles -->
+  <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen transition-colors">
 
+<!-- Skip to content (accessibility) -->
+<a href="#main-content"
+   class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[999] focus:bg-blue-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-medium">
+  Skip to main content
+</a>
+
 <div x-data="app()" x-cloak class="min-h-screen flex flex-col">
 
   <!-- Header -->
-  <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
+  <header role="banner" class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
     <div class="mx-auto px-4 py-3">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
           <!-- Sidebar toggle -->
           <button @click="sidebarOpen = !sidebarOpen"
-                  class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                  title="Toggle sidebar">
+                  class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+                  title="Toggle sidebar"
+                  aria-label="Toggle sidebar navigation"
+                  :aria-expanded="sidebarOpen">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
             </svg>
@@ -65,10 +93,14 @@
                 x-text="'Updated: ' + new Date(lastUpdated).toLocaleString('en-ZA', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})"></span>
           <span class="hidden md:inline text-xs text-gray-500 dark:text-gray-400" x-text="dateRangeDisplay"></span>
           <span class="text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-2 py-1 rounded-full"
-                x-text="filteredItems.length + ' items'"></span>
-          <button @click="doToggleTheme()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-            <span x-show="theme === 'light'" class="text-lg">🌙</span>
-            <span x-show="theme === 'dark'" class="text-lg">☀️</span>
+                x-text="filteredItems.length + ' items'"
+                role="status" aria-live="polite" aria-atomic="true"></span>
+          <button @click="doToggleTheme()"
+                  class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+                  :aria-label="theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'"
+                  title="Toggle theme">
+            <span x-show="theme === 'light'" class="text-lg" aria-hidden="true">🌙</span>
+            <span x-show="theme === 'dark'" class="text-lg" aria-hidden="true">☀️</span>
           </button>
         </div>
       </div>
@@ -83,11 +115,15 @@
           <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
-          <input type="text"
+          <label for="search-input" class="sr-only">Search tech updates</label>
+          <input type="search"
+                 id="search-input"
+                 autocomplete="off"
                  :value="searchQuery"
                  @input="onSearchInput($event)"
                  @keydown.escape="searchQuery = ''"
                  :placeholder="globalSearch ? 'Search all tabs... (words, dates, #tags)' : 'Search ' + activeTabDef.label + '... (words, dates like 2026-03, #tags)'"
+                 :aria-label="globalSearch ? 'Search all tabs' : 'Search ' + activeTabDef.label"
                  class="w-full pl-10 pr-20 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors">
           <button @click="toggleGlobalSearch()"
                   :class="globalSearch ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400'"
@@ -110,10 +146,10 @@
         </div>
       </div>
       <div x-show="showFilters" x-transition class="mt-3 flex items-center gap-3">
-        <label class="text-xs text-gray-500">From:</label>
-        <input type="date" x-model="dateStart" class="text-sm border border-gray-300 dark:border-gray-700 rounded-lg px-2 py-1 bg-gray-50 dark:bg-gray-800 outline-none">
-        <label class="text-xs text-gray-500">To:</label>
-        <input type="date" x-model="dateEnd" class="text-sm border border-gray-300 dark:border-gray-700 rounded-lg px-2 py-1 bg-gray-50 dark:bg-gray-800 outline-none">
+        <label for="date-start" class="text-xs text-gray-500">From:</label>
+        <input type="date" id="date-start" x-model="dateStart" aria-label="Filter start date" class="text-sm border border-gray-300 dark:border-gray-700 rounded-lg px-2 py-1 bg-gray-50 dark:bg-gray-800 outline-none">
+        <label for="date-end" class="text-xs text-gray-500">To:</label>
+        <input type="date" id="date-end" x-model="dateEnd" aria-label="Filter end date" class="text-sm border border-gray-300 dark:border-gray-700 rounded-lg px-2 py-1 bg-gray-50 dark:bg-gray-800 outline-none">
         <button @click="dateStart = ''; dateEnd = ''; datePreset = ''" class="text-xs text-red-500 hover:text-red-700">Clear</button>
       </div>
 
@@ -156,6 +192,7 @@
         <template x-for="(cf, fi) in columnFilters" :key="fi">
           <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
             <select x-model="columnFilters[fi].column"
+                    aria-label="Filter column"
                     class="text-xs border border-purple-300 dark:border-purple-600 rounded px-2 py-1.5 bg-white dark:bg-gray-800 outline-none min-w-[80px]">
               <option value="title">Title</option>
               <option value="source_name">Source</option>
@@ -164,6 +201,7 @@
               <option value="tldr">TLDR</option>
             </select>
             <select x-model="columnFilters[fi].operator"
+                    aria-label="Filter operator"
                     class="text-xs border border-purple-300 dark:border-purple-600 rounded px-2 py-1.5 bg-white dark:bg-gray-800 outline-none min-w-[90px]">
               <option value="contains">contains</option>
               <option value="equals">equals</option>
@@ -178,9 +216,12 @@
                     x-text="columnFilters[fi].mode === 'include' ? 'INCLUDE' : 'EXCLUDE'"></button>
             <input x-model="columnFilters[fi].value"
                    placeholder="Type filter value..."
+                   aria-label="Filter value"
                    class="flex-1 text-xs border border-purple-300 dark:border-purple-600 rounded px-2 py-1.5 bg-white dark:bg-gray-800 outline-none min-w-[120px]">
             <button @click="removeColumnFilter(fi)"
-                    class="p-1 text-gray-400 hover:text-red-500 transition-colors">
+                    class="p-1 text-gray-400 hover:text-red-500 transition-colors"
+                    aria-label="Remove column filter"
+                    title="Remove filter">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
               </svg>
@@ -221,6 +262,7 @@
         <template x-for="(cond, ci) in advancedConditions" :key="ci">
           <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
             <select x-model="advancedConditions[ci].field"
+                    aria-label="Search field"
                     class="text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1.5 bg-white dark:bg-gray-800 outline-none min-w-[80px]">
               <option value="any">Any field</option>
               <option value="title">Title</option>
@@ -230,6 +272,7 @@
               <option value="date">Date</option>
             </select>
             <select x-model="advancedConditions[ci].operator"
+                    aria-label="Search operator"
                     class="text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1.5 bg-white dark:bg-gray-800 outline-none min-w-[90px]">
               <option value="contains">contains</option>
               <option value="equals">equals</option>
@@ -244,6 +287,7 @@
                     x-text="advancedConditions[ci].negate ? 'NOT' : 'IS'"></button>
             <input x-model="advancedConditions[ci].value"
                    @keydown.enter="applyAdvancedSearch()"
+                   aria-label="Search value"
                    :placeholder="advancedConditions[ci].field === 'tag' ? '#new, #security...' : 'Type to search...'"
                    class="flex-1 text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1.5 bg-white dark:bg-gray-800 outline-none min-w-[120px]">
             <button @click="removeCondition(ci)"
@@ -281,7 +325,8 @@
          x-transition:enter="ease-out duration-200" x-transition:leave="ease-in duration-150"></div>
 
     <!-- LEFT Sidebar — slides over on mobile, inline on desktop -->
-    <aside :class="sidebarOpen ? 'w-60 translate-x-0' : 'w-0 -translate-x-full lg:translate-x-0'"
+    <aside role="navigation" aria-label="Category navigation"
+           :class="sidebarOpen ? 'w-60 translate-x-0' : 'w-0 -translate-x-full lg:translate-x-0'"
            class="flex-shrink-0 transition-all duration-300 ease-in-out overflow-hidden bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800
                   fixed lg:relative lg:sticky top-0 lg:top-[105px] h-full lg:h-[calc(100vh-105px-49px)] z-50 lg:z-auto">
 
@@ -292,7 +337,8 @@
           <span class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Navigation</span>
           <button @click="sidebarOpen = false"
                   class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                  title="Close sidebar">
+                  title="Close sidebar"
+                  aria-label="Close sidebar">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
             </svg>
@@ -428,7 +474,7 @@
     </aside>
 
     <!-- Main Content (shifts with sidebar) -->
-    <main class="flex-1 min-w-0 px-4 py-4 transition-all duration-300 ease-in-out">
+    <main id="main-content" role="main" class="flex-1 min-w-0 px-4 py-4 transition-all duration-300 ease-in-out">
 
       <!-- Loading -->
       <div x-show="loading" class="flex items-center justify-center py-20">
@@ -501,8 +547,9 @@
                             <div class="relative flex-shrink-0">
                               <button @click.stop="toggleShareMenu(item.id)"
                                       class="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                                      title="Share">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      title="Share"
+                                      aria-label="Share this item">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
                                 </svg>
                               </button>
@@ -630,7 +677,9 @@
                 <!-- Mobile share button -->
                 <div class="relative">
                   <button @click.stop="toggleShareMenu(item.id)"
-                          class="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400 hover:text-gray-600 transition-colors">
+                          class="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400 hover:text-gray-600 transition-colors"
+                          aria-label="Share this item"
+                          title="Share">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
                     </svg>
@@ -679,7 +728,7 @@
   </div>
 
   <!-- Footer / Export & Share Bar -->
-  <footer class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 sticky bottom-0 z-40">
+  <footer role="contentinfo" class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 sticky bottom-0 z-40">
     <div class="mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-2">
         <span class="text-xs text-gray-400">Export:</span>
