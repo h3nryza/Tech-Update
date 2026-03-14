@@ -1,0 +1,86 @@
+{
+  "name": "UX & Accessibility",
+  "version": "1.1.0",
+  "checks": [
+    {
+      "id": "skip-to-content",
+      "name": "Skip-to-content link exists",
+      "severity": "critical",
+      "command": "grep -c 'Skip to main content' index.html",
+      "expect": "min:1",
+      "fix": "Add <a href='#main-content'>Skip to main content</a> after <body>"
+    },
+    {
+      "id": "aria-labels-buttons",
+      "name": "All icon-only buttons have aria-label",
+      "severity": "critical",
+      "command": "grep -c 'aria-label' index.html",
+      "expect": "min:10",
+      "fix": "Add aria-label to all buttons that only contain SVG icons"
+    },
+    {
+      "id": "aria-landmarks",
+      "name": "ARIA landmark roles present",
+      "severity": "critical",
+      "command": "bash -c \"grep -c 'role=' index.html\"",
+      "expect": "min:4",
+      "fix": "Add role attributes: banner (header), navigation (nav), main (main), contentinfo (footer)"
+    },
+    {
+      "id": "aria-live-regions",
+      "name": "Dynamic content has aria-live",
+      "severity": "high",
+      "command": "grep -c 'aria-live' index.html",
+      "expect": "min:1",
+      "fix": "Add aria-live='polite' to elements that update dynamically"
+    },
+    {
+      "id": "search-input-type",
+      "name": "Search uses type=search",
+      "severity": "medium",
+      "command": "grep -c 'type=\"search\"' index.html",
+      "expect": "min:1",
+      "fix": "Change search input from type='text' to type='search'"
+    },
+    {
+      "id": "form-labels",
+      "name": "All inputs have associated labels",
+      "severity": "high",
+      "command": "bash -c \"grep -c 'aria-label=' index.html\"",
+      "expect": "min:12",
+      "fix": "Add <label for='id'> or aria-label to all form inputs"
+    },
+    {
+      "id": "tap-targets",
+      "name": "Minimum 44px tap targets on icon buttons",
+      "severity": "high",
+      "command": "bash -c \"grep -c 'min-h-\\[44px\\]' index.html\"",
+      "expect": "min:2",
+      "fix": "Add min-w-[44px] min-h-[44px] to icon-only buttons"
+    },
+    {
+      "id": "reduced-motion",
+      "name": "prefers-reduced-motion respected",
+      "severity": "high",
+      "command": "grep -c 'prefers-reduced-motion' css/style.css",
+      "expect": "min:1",
+      "fix": "Add @media (prefers-reduced-motion: reduce) block"
+    },
+    {
+      "id": "external-links-rel",
+      "name": "External links have rel=noopener noreferrer",
+      "severity": "medium",
+      "command": "grep -c 'noopener noreferrer' index.html",
+      "expect": "min:3",
+      "fix": "Add rel='noopener noreferrer' to all links with target='_blank'"
+    },
+    {
+      "id": "html-lang",
+      "name": "HTML has lang attribute",
+      "severity": "critical",
+      "command": "grep -c 'lang=\"en\"' index.html",
+      "expect": "min:1",
+      "fix": "Add lang='en' to <html> tag"
+    }
+  ]
+}

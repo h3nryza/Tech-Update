@@ -1,0 +1,40 @@
+{
+  "agents": [
+    {
+      "id": "ux-architect",
+      "name": "UX Architect",
+      "skills": ["ux-accessibility.json"],
+      "description": "Audits accessibility, responsive design, and UX patterns"
+    },
+    {
+      "id": "security-engineer",
+      "name": "Security Engineer",
+      "skills": ["security-pipeline.json"],
+      "description": "Audits security pipeline, CSP, SRI, secrets, dependencies"
+    },
+    {
+      "id": "white-label-architect",
+      "name": "White-Label CSS Architect",
+      "skills": ["white-label-css.json"],
+      "description": "Audits CSS token system, hardcoded values, dark mode, theme overrides"
+    },
+    {
+      "id": "usability-tester",
+      "name": "Usability Tester",
+      "skills": ["usability-testing.json"],
+      "description": "Tests responsive layout, mobile nav, loading states, interaction patterns"
+    },
+    {
+      "id": "code-quality",
+      "name": "Code Quality Engineer",
+      "skills": ["code-quality.json"],
+      "description": "Audits code safety, XSS prevention, error handling, file sizes"
+    }
+  ],
+  "targets": {
+    "program_score": 99.99,
+    "skill_pass_rate": 98,
+    "agent_pass_rate": 99,
+    "agent_skill_usage": 99
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "tech-update-browser-tests",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "npx playwright test --reporter=json > ../reports/browser-report.json 2>&1; npx playwright test --reporter=list",
+    "test:headed": "npx playwright test --headed",
+    "install-browsers": "npx playwright install chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.42.0",
+    "@axe-core/playwright": "^4.8.0",
+    "serve": "^14.2.0"
+  }
+}

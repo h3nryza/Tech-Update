@@ -1,0 +1,102 @@
+{
+  "name": "White-Label CSS",
+  "version": "1.1.0",
+  "checks": [
+    {
+      "id": "tokens-file-exists",
+      "name": "Design tokens file exists",
+      "severity": "critical",
+      "command": "test -f css/tokens.css && echo 1 || echo 0",
+      "expect": "min:1",
+      "fix": "Create css/tokens.css with 3-tier token system"
+    },
+    {
+      "id": "tier1-color-scales",
+      "name": "Tier 1 has complete color scales",
+      "severity": "critical",
+      "command": "bash -c \"grep -c 'color-blue-500\\|color-gray-500\\|color-red-500\\|color-green-500\\|color-yellow-500\\|color-purple-500' css/tokens.css\"",
+      "expect": "min:6",
+      "fix": "Add complete color scales (50-950) for all primary colors in Tier 1"
+    },
+    {
+      "id": "tier2-brand-tokens",
+      "name": "Tier 2 semantic brand tokens defined",
+      "severity": "critical",
+      "command": "bash -c \"grep -c 'brand-primary\\|brand-secondary\\|brand-accent' css/tokens.css\"",
+      "expect": "min:6",
+      "fix": "Add --brand-primary, --brand-secondary, --brand-accent with hover/active variants"
+    },
+    {
+      "id": "tier2-surface-tokens",
+      "name": "Tier 2 surface tokens defined",
+      "severity": "high",
+      "command": "bash -c \"grep -c 'surface-page\\|surface-raised\\|surface-overlay\\|surface-sunken' css/tokens.css\"",
+      "expect": "min:4",
+      "fix": "Add surface tokens: page, raised, overlay, sunken"
+    },
+    {
+      "id": "tier2-feedback-tokens",
+      "name": "Tier 2 feedback tokens defined",
+      "severity": "high",
+      "command": "bash -c \"grep -c 'feedback-success\\|feedback-warning\\|feedback-error\\|feedback-info' css/tokens.css\"",
+      "expect": "min:8",
+      "fix": "Add feedback tokens with bg/text/border variants for success/warning/error/info"
+    },
+    {
+      "id": "tier3-dark-media-query",
+      "name": "Dark mode via media query",
+      "severity": "critical",
+      "command": "grep -c 'prefers-color-scheme: dark' css/tokens.css",
+      "expect": "min:1",
+      "fix": "Add @media (prefers-color-scheme: dark) block with dark overrides"
+    },
+    {
+      "id": "tier3-dark-class",
+      "name": "Dark mode via .dark class or data-theme",
+      "severity": "critical",
+      "command": "bash -c \"grep -c 'root.dark\\|data-theme=.dark' css/tokens.css\"",
+      "expect": "min:1",
+      "fix": "Add .dark or [data-theme=dark] block with dark mode overrides"
+    },
+    {
+      "id": "zero-hardcoded-colors-style",
+      "name": "Zero hardcoded hex colors in style.css",
+      "severity": "critical",
+      "command": "node -e \"const f=require('fs').readFileSync('css/style.css','utf8');const m=f.match(/#[0-9a-fA-F]{3,8}\\\\b/g);console.log(m?m.length:0)\"",
+      "expect": "exact:0",
+      "fix": "Replace all hardcoded hex colors in style.css with var(--token) references"
+    },
+    {
+      "id": "zero-hardcoded-fonts-style",
+      "name": "Zero hardcoded font-family in style.css",
+      "severity": "high",
+      "command": "bash -c \"count=$(grep -c 'font-family:' css/style.css 2>/dev/null); echo ${count:-0}\"",
+      "expect": "exact:0",
+      "fix": "Replace all hardcoded font-family with var(--font-family-*) tokens"
+    },
+    {
+      "id": "tokens-loaded-first",
+      "name": "tokens.css loaded before style.css in HTML",
+      "severity": "critical",
+      "command": "node -e \"const f=require('fs').readFileSync('index.html','utf8');const t=f.indexOf('tokens.css');const s=f.indexOf('css/style.css');console.log(t>=0&&t<s?1:0)\"",
+      "expect": "min:1",
+      "fix": "Ensure <link href='css/tokens.css'> appears before <link href='css/style.css'> in HTML"
+    },
+    {
+      "id": "component-tokens-defined",
+      "name": "Component-level tokens defined",
+      "severity": "high",
+      "command": "bash -c \"grep -c 'button-radius\\|card-radius\\|input-radius\\|modal-radius' css/tokens.css\"",
+      "expect": "min:3",
+      "fix": "Add component tokens: --button-radius, --card-radius, --input-radius, --modal-radius"
+    },
+    {
+      "id": "z-index-scale",
+      "name": "Z-index scale defined",
+      "severity": "medium",
+      "command": "bash -c \"grep -c 'z-dropdown\\|z-sticky\\|z-overlay\\|z-modal\\|z-toast' css/tokens.css\"",
+      "expect": "min:4",
+      "fix": "Add z-index scale tokens"
+    }
+  ]
+}

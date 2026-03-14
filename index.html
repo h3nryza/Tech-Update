@@ -56,7 +56,7 @@
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen transition-colors">
+<body class="bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen transition-colors overflow-x-hidden">
 
 <!-- Skip to content (accessibility) -->
 <a href="#main-content"
@@ -64,7 +64,7 @@
   Skip to main content
 </a>
 
-<div x-data="app()" x-cloak class="min-h-screen flex flex-col">
+<div x-data="app()" x-cloak class="min-h-screen flex flex-col overflow-x-hidden max-w-full">
 
   <!-- Header -->
   <header role="banner" class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
@@ -213,6 +213,7 @@
             <button @click="columnFilters[fi].mode = columnFilters[fi].mode === 'include' ? 'exclude' : 'include'"
                     :class="columnFilters[fi].mode === 'include' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'"
                     class="px-2.5 py-1.5 text-[10px] font-bold rounded transition-colors min-w-[70px]"
+                    :aria-label="columnFilters[fi].mode === 'include' ? 'Switch to exclude mode' : 'Switch to include mode'"
                     x-text="columnFilters[fi].mode === 'include' ? 'INCLUDE' : 'EXCLUDE'"></button>
             <input x-model="columnFilters[fi].value"
                    placeholder="Type filter value..."
@@ -284,6 +285,7 @@
             <button @click="advancedConditions[ci].negate = !advancedConditions[ci].negate"
                     :class="advancedConditions[ci].negate ? 'bg-red-500 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-500'"
                     class="px-2 py-1.5 text-[10px] font-bold rounded transition-colors min-w-[40px]"
+                    :aria-label="advancedConditions[ci].negate ? 'Switch to IS mode' : 'Switch to NOT mode'"
                     x-text="advancedConditions[ci].negate ? 'NOT' : 'IS'"></button>
             <input x-model="advancedConditions[ci].value"
                    @keydown.enter="applyAdvancedSearch()"
@@ -377,6 +379,8 @@
                   <!-- Expand arrow for items with children -->
                   <button x-show="tab.children && tab.children.length > 0"
                           @click.stop="tab._expanded = !tab._expanded"
+                          :aria-label="(tab._expanded ? 'Collapse ' : 'Expand ') + tab.label + ' sub-tabs'"
+                          :aria-expanded="tab._expanded"
                           class="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
                     <svg :class="tab._expanded ? 'rotate-180' : ''" class="w-3 h-3 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>

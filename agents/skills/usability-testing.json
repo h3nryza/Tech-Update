@@ -1,0 +1,86 @@
+{
+  "name": "Usability Testing",
+  "version": "1.1.0",
+  "checks": [
+    {
+      "id": "viewport-meta",
+      "name": "Viewport meta tag configured",
+      "severity": "critical",
+      "command": "grep -c 'width=device-width' index.html",
+      "expect": "min:1",
+      "fix": "Add <meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+    },
+    {
+      "id": "responsive-classes",
+      "name": "Responsive breakpoint classes used",
+      "severity": "high",
+      "command": "bash -c \"grep -oE '(sm:|md:|lg:|xl:)' index.html | wc -l | tr -d ' '\"",
+      "expect": "min:10",
+      "fix": "Use Tailwind responsive prefixes for adaptive layouts"
+    },
+    {
+      "id": "mobile-nav",
+      "name": "Mobile navigation implemented",
+      "severity": "high",
+      "command": "grep -c 'sidebarOpen' index.html",
+      "expect": "min:1",
+      "fix": "Implement mobile navigation (sidebar toggle, hamburger, or drawer)"
+    },
+    {
+      "id": "dark-mode-toggle",
+      "name": "Dark mode toggle exists",
+      "severity": "medium",
+      "command": "grep -c 'doToggleTheme' index.html",
+      "expect": "min:1",
+      "fix": "Add dark mode toggle button"
+    },
+    {
+      "id": "loading-state",
+      "name": "Loading state exists",
+      "severity": "high",
+      "command": "grep -c 'loading' index.html",
+      "expect": "min:1",
+      "fix": "Add loading indicator for async content"
+    },
+    {
+      "id": "empty-state",
+      "name": "Empty state for no results",
+      "severity": "medium",
+      "command": "grep -c 'filteredItems.length === 0' index.html",
+      "expect": "min:1",
+      "fix": "Add empty state message when no items match filters"
+    },
+    {
+      "id": "error-state",
+      "name": "Error state handling exists",
+      "severity": "high",
+      "command": "grep -c 'error' js/app.js",
+      "expect": "min:1",
+      "fix": "Add error state display for failed data loads"
+    },
+    {
+      "id": "mobile-card-layout",
+      "name": "Mobile card layout for table data",
+      "severity": "high",
+      "command": "grep -c 'md:hidden' index.html",
+      "expect": "min:1",
+      "fix": "Add card-based layout for mobile"
+    },
+    {
+      "id": "sticky-header",
+      "name": "Header is sticky for navigation",
+      "severity": "medium",
+      "command": "grep -c 'sticky top-0' index.html",
+      "expect": "min:1",
+      "fix": "Add sticky top-0 to header for persistent navigation"
+    },
+    {
+      "id": "print-styles",
+      "name": "Print styles configured",
+      "severity": "low",
+      "command": "grep -c '@media print' css/style.css",
+      "expect": "min:1",
+      "fix": "Add print media query hiding nav/sidebar and optimizing layout"
+    }
+  ]
+}

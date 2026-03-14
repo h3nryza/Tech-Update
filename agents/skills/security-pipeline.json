@@ -1,0 +1,102 @@
+{
+  "name": "Security Pipeline",
+  "version": "1.0.0",
+  "checks": [
+    {
+      "id": "csp-meta-tag",
+      "name": "Content Security Policy meta tag present",
+      "severity": "critical",
+      "command": "grep -c 'Content-Security-Policy' index.html",
+      "expect": "min:1",
+      "fix": "Add <meta http-equiv='Content-Security-Policy' content='...'> in <head>"
+    },
+    {
+      "id": "sri-hashes",
+      "name": "CDN scripts have SRI integrity hashes",
+      "severity": "critical",
+      "command": "grep -c 'integrity=\"sha384' index.html",
+      "expect": "min:4",
+      "fix": "Generate SRI hashes for all CDN scripts using openssl dgst -sha384"
+    },
+    {
+      "id": "crossorigin-anonymous",
+      "name": "CDN scripts have crossorigin attribute",
+      "severity": "high",
+      "command": "grep -c 'crossorigin=\"anonymous\"' index.html",
+      "expect": "min:4",
+      "fix": "Add crossorigin='anonymous' to all CDN script tags with SRI"
+    },
+    {
+      "id": "security-workflow-exists",
+      "name": "Security pipeline workflow exists",
+      "severity": "critical",
+      "command": "test -f .github/workflows/security.yml && echo 1 || echo 0",
+      "expect": "min:1",
+      "fix": "Create .github/workflows/security.yml with lint, audit, secrets scan, dependency review, license check, SBOM"
+    },
+    {
+      "id": "codeql-workflow-exists",
+      "name": "CodeQL SAST workflow exists",
+      "severity": "critical",
+      "command": "test -f .github/workflows/codeql.yml && echo 1 || echo 0",
+      "expect": "min:1",
+      "fix": "Create .github/workflows/codeql.yml for JavaScript SAST analysis"
+    },
+    {
+      "id": "secrets-scan-configured",
+      "name": "Secrets scanning configured in pipeline",
+      "severity": "critical",
+      "command": "grep -c 'gitleaks' .github/workflows/security.yml",
+      "expect": "min:1",
+      "fix": "Add gitleaks/gitleaks-action@v2 step to security workflow"
+    },
+    {
+      "id": "npm-audit-in-pipeline",
+      "name": "npm audit runs in CI pipeline",
+      "severity": "high",
+      "command": "grep -c 'npm audit' .github/workflows/security.yml",
+      "expect": "min:1",
+      "fix": "Add 'npm audit --audit-level=high' step to security workflow"
+    },
+    {
+      "id": "dependency-review",
+      "name": "Dependency review on PRs",
+      "severity": "high",
+      "command": "grep -c 'dependency-review-action' .github/workflows/security.yml",
+      "expect": "min:1",
+      "fix": "Add actions/dependency-review-action@v4 for PR dependency checks"
+    },
+    {
+      "id": "license-check",
+      "name": "License compliance check configured",
+      "severity": "medium",
+      "command": "grep -c 'license-checker\\|license' .github/workflows/security.yml",
+      "expect": "min:1",
+      "fix": "Add license-checker step to fail on GPL-3.0/AGPL-3.0 licenses"
+    },
+    {
+      "id": "dependabot-config",
+      "name": "Dependabot configured",
+      "severity": "high",
+      "command": "test -f .github/dependabot.yml && echo 1 || echo 0",
+      "expect": "min:1",
+      "fix": "Create .github/dependabot.yml for npm and GitHub Actions updates"
+    },
+    {
+      "id": "no-secrets-in-code",
+      "name": "No hardcoded secrets in source",
+      "severity": "critical",
+      "command": "bash -c \"grep -rEI 'AKIA[0-9A-Z]{16}|sk-[a-zA-Z0-9]{48}|ghp_[a-zA-Z0-9]{36}' --include='*.js' --include='*.json' --include='*.html' . 2>/dev/null | grep -v node_modules | wc -l | tr -d ' '\"",
+      "expect": "exact:0",
+      "fix": "Remove any hardcoded secrets and use environment variables"
+    },
+    {
+      "id": "sbom-generation",
+      "name": "SBOM generation configured",
+      "severity": "medium",
+      "command": "grep -c 'cyclonedx\\|sbom' .github/workflows/security.yml",
+      "expect": "min:1",
+      "fix": "Add CycloneDX SBOM generation step to security workflow"
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "name": "Code Quality",
+  "version": "1.0.0",
+  "checks": [
+    {
+      "id": "no-eval",
+      "name": "No eval() usage in app code",
+      "severity": "critical",
+      "command": "bash -c \"grep -rn 'eval(' js/ 2>/dev/null | wc -l | tr -d ' '\"",
+      "expect": "exact:0",
+      "fix": "Remove all eval() calls and use safer alternatives"
+    },
+    {
+      "id": "no-innerhtml",
+      "name": "No innerHTML in app code",
+      "severity": "critical",
+      "command": "bash -c \"grep -rn 'innerHTML' js/ 2>/dev/null | wc -l | tr -d ' '\"",
+      "expect": "exact:0",
+      "fix": "Use textContent or DOM APIs instead of innerHTML to prevent XSS"
+    },
+    {
+      "id": "no-document-write",
+      "name": "No document.write usage",
+      "severity": "high",
+      "command": "bash -c \"grep -rn 'document.write' js/ 2>/dev/null | wc -l | tr -d ' '\"",
+      "expect": "exact:0",
+      "fix": "Replace document.write with DOM manipulation"
+    },
+    {
+      "id": "strict-equality",
+      "name": "Uses strict equality checks",
+      "severity": "medium",
+      "command": "bash -c \"grep -rn '[^!=]==[^=]' js/ 2>/dev/null | grep -v '===' | grep -v node_modules | wc -l | tr -d ' '\"",
+      "expect": "max:5",
+      "fix": "Replace == with === for strict equality"
+    },
+    {
+      "id": "error-handling",
+      "name": "Catch blocks have error handling",
+      "severity": "high",
+      "command": "bash -c \"grep -c 'catch' js/app.js 2>/dev/null || echo 0\"",
+      "expect": "min:1",
+      "fix": "Add proper error handling in all catch blocks"
+    },
+    {
+      "id": "no-console-log-prod",
+      "name": "Minimal console.log in production code",
+      "severity": "low",
+      "command": "bash -c \"grep -rn 'console.log' js/ 2>/dev/null | wc -l | tr -d ' '\"",
+      "expect": "max:3",
+      "fix": "Remove or wrap console.log calls for production"
+    },
+    {
+      "id": "xss-prevention",
+      "name": "Alpine.js uses x-text not x-html",
+      "severity": "critical",
+      "command": "bash -c \"grep -c 'x-html' index.html 2>/dev/null || echo 0\"",
+      "expect": "exact:0",
+      "fix": "Replace all x-html with x-text to prevent XSS from RSS content"
+    },
+    {
+      "id": "no-commented-code",
+      "name": "No large blocks of commented-out code",
+      "severity": "low",
+      "command": "bash -c \"grep -rn '^\\/\\/' js/ 2>/dev/null | grep -vE '(^[^:]+:[^:]+:\\s*\\/\\/ [A-Z])' | wc -l | tr -d ' '\"",
+      "expect": "max:20",
+      "fix": "Remove commented-out code blocks, use version control instead"
+    },
+    {
+      "id": "consistent-var-declarations",
+      "name": "Uses var/let/const consistently",
+      "severity": "low",
+      "command": "bash -c \"grep -rn 'var ' js/ 2>/dev/null | wc -l | tr -d ' '\"",
+      "expect": "min:0",
+      "fix": "Document: this project uses var for ES5 compat (Alpine.js pattern)"
+    },
+    {
+      "id": "file-size-limit",
+      "name": "No JS files over 400 lines",
+      "severity": "medium",
+      "command": "bash -c \"for f in js/*.js; do lines=$(wc -l < \\\"$f\\\"); if [ \\\"$lines\\\" -gt 400 ]; then echo 0; exit; fi; done; echo 1\"",
+      "expect": "min:1",
+      "fix": "Split files over 400 lines into logical modules"
+    }
+  ]
+}
