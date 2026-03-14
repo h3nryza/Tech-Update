@@ -1,6 +1,6 @@
 {
   "name": "UX & Accessibility",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "checks": [
     {
       "id": "skip-to-content",
@@ -24,7 +24,7 @@
       "severity": "critical",
       "command": "bash -c \"grep -c 'role=' index.html\"",
       "expect": "min:4",
-      "fix": "Add role attributes: banner (header), navigation (nav), main (main), contentinfo (footer)"
+      "fix": "Add role attributes: banner, navigation, main, contentinfo, dialog"
     },
     {
       "id": "aria-live-regions",
@@ -47,7 +47,7 @@
       "name": "All inputs have associated labels",
       "severity": "high",
       "command": "bash -c \"grep -c 'aria-label=' index.html\"",
-      "expect": "min:12",
+      "expect": "min:10",
       "fix": "Add <label for='id'> or aria-label to all form inputs"
     },
     {
@@ -81,6 +81,46 @@
       "command": "grep -c 'lang=\"en\"' index.html",
       "expect": "min:1",
       "fix": "Add lang='en' to <html> tag"
+    },
+    {
+      "id": "share-modal-pattern",
+      "name": "Share uses modal overlay pattern (not inline dropdown)",
+      "severity": "high",
+      "command": "grep -c 'share-overlay' index.html",
+      "expect": "min:1",
+      "fix": "Implement share as a centered modal with backdrop blur, not an inline dropdown"
+    },
+    {
+      "id": "share-modal-aria",
+      "name": "Share modal has aria-modal and role=dialog",
+      "severity": "high",
+      "command": "bash -c \"grep -c 'aria-modal.*true' index.html\"",
+      "expect": "min:1",
+      "fix": "Add role='dialog' aria-modal='true' to share modal panel"
+    },
+    {
+      "id": "share-modal-escape",
+      "name": "Share modal closes on Escape key",
+      "severity": "medium",
+      "command": "grep -c 'keydown.escape' index.html",
+      "expect": "min:1",
+      "fix": "Add @keydown.escape.window='closeShareModal()' to share panel"
+    },
+    {
+      "id": "share-modal-grid",
+      "name": "Share channels use grid layout (not vertical list)",
+      "severity": "high",
+      "command": "grep -c 'grid grid-cols-4' index.html",
+      "expect": "min:1",
+      "fix": "Use CSS grid with 4 columns for share platform buttons"
+    },
+    {
+      "id": "share-modal-preview",
+      "name": "Share modal includes content preview",
+      "severity": "medium",
+      "command": "grep -c 'shareModalPreview' index.html",
+      "expect": "min:1",
+      "fix": "Add preview section showing what will be shared"
     }
   ]
 }

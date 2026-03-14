@@ -66,6 +66,30 @@ th:hover .col-resize-handle { opacity: 1; }
 thead.sticky th { background: inherit; }
 thead.sticky { box-shadow: var(--sticky-shadow); }
 
+/* Share modal overlay */
+.share-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.share-panel {
+  background: var(--surface-overlay);
+  border-radius: var(--radius-xl);
+  max-width: 28rem;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-xl);
+}
+
 /* Print */
 @media print {
   header, nav, footer, aside, .no-print { display: none !important; }

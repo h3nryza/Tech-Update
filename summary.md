@@ -7,11 +7,11 @@
 
 | Metric | Target | Achieved |
 |--------|--------|----------|
-| Program Score (agent runner) | 99.99% | **100%** (54/54 checks) |
+| Program Score (agent runner) | 99.99% | **100%** (59/59 checks) |
 | Skill Pass Rate | >98% per skill | **100%** all 5 skills |
 | Agent Pass Rate | >99% per agent | **100%** all 5 agents |
 | Agent-Skill Usage | >99% | **100%** |
-| Browser Tests | 100% | **100%** (55/55 across 5 viewports) |
+| Browser Tests | 100% | **100%** (85/85 across 5 viewports) |
 
 ## Iteration Log
 
@@ -102,3 +102,13 @@
 5. **`overflow-x-hidden` alone isn't enough** — Also need `max-w-full` on layout containers to prevent content from expanding beyond viewport on mobile.
 6. **Color contrast in tag badges** — Tailwind's default 100/800 color pairings sometimes fail WCAG AA contrast checks. These are "serious" but not "critical" — tracked as a known issue.
 7. **Skill check commands should be idempotent and zero-safe** — Commands must handle "no matches found" gracefully (exit code 0 with output "0") rather than throwing errors.
+8. **UX skills must validate interaction patterns, not just structure** — The original UX skill only checked for ARIA attributes. After Henry's feedback, skills were updated to validate the share modal pattern (overlay, grid layout, preview, escape-to-close, aria-modal). Skills should encode the user's preferred design patterns.
+9. **Study the user's other projects for design patterns** — Henry's MonitoringPage used a proper modal overlay with backdrop blur, 4-column grid, SVG brand icons, preview section, and native share. The UX skill should have caught that the inline dropdown didn't match this standard.
+
+## Loop 8 — Share Modal Rebuild
+
+- **Root cause:** Share panel used inline dropdowns (vertical then horizontal emoji rows) instead of Henry's preferred full modal overlay pattern from MonitoringPage
+- **Fix:** Rebuilt as unified modal with: backdrop blur overlay, centered panel, content preview, 4-column grid with colored SVG icons (Copy, Email, Slack, Teams, WhatsApp, X, LinkedIn, Reddit, Telegram), native share button on mobile, escape/backdrop-click to close
+- **UX skill updated:** Added 5 new checks (share-modal-pattern, share-modal-aria, share-modal-escape, share-modal-grid, share-modal-preview)
+- **Browser tests added:** 6 new share modal tests (opens overlay, ARIA attributes, escape close, backdrop close, grid layout, copy feedback) across all 5 viewports = 30 new tests
+- **Final scores:** Agent runner 59/59 (100%), Browser tests 85/85 (100%)

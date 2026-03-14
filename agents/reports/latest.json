@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-03-14T20:43:00.715Z",
+  "timestamp": "2026-03-14T21:09:20.354Z",
   "summary": {
     "totalAgents": 5,
-    "totalChecks": 54,
-    "totalPassed": 54,
+    "totalChecks": 59,
+    "totalPassed": 59,
     "totalFailed": 0,
     "overallPassRate": 100,
     "skillUsageRate": 100,
@@ -30,7 +30,7 @@
           "pass": true,
           "actual": 0,
           "expected": "== 0",
-          "duration_ms": 50,
+          "duration_ms": 35,
           "fix": null
         },
         {
@@ -40,7 +40,7 @@
           "pass": true,
           "actual": 0,
           "expected": "== 0",
-          "duration_ms": 51,
+          "duration_ms": 29,
           "fix": null
         },
         {
@@ -50,7 +50,7 @@
           "pass": true,
           "actual": 0,
           "expected": "== 0",
-          "duration_ms": 75,
+          "duration_ms": 29,
           "fix": null
         },
         {
@@ -60,7 +60,7 @@
           "pass": true,
           "actual": 0,
           "expected": "<= 5",
-          "duration_ms": 152,
+          "duration_ms": 40,
           "fix": null
         },
         {
@@ -68,9 +68,9 @@
           "name": "Catch blocks have error handling",
           "severity": "high",
           "pass": true,
-          "actual": 6,
+          "actual": 7,
           "expected": ">= 1",
-          "duration_ms": 119,
+          "duration_ms": 28,
           "fix": null
         },
         {
@@ -80,7 +80,7 @@
           "pass": true,
           "actual": 0,
           "expected": "<= 3",
-          "duration_ms": 137,
+          "duration_ms": 31,
           "fix": null
         },
         {
@@ -90,7 +90,7 @@
           "pass": true,
           "actual": 0,
           "expected": "== 0",
-          "duration_ms": 80,
+          "duration_ms": 26,
           "fix": null
         },
         {
@@ -100,7 +100,7 @@
           "pass": true,
           "actual": 3,
           "expected": "<= 20",
-          "duration_ms": 65,
+          "duration_ms": 35,
           "fix": null
         },
         {
@@ -110,7 +110,7 @@
           "pass": true,
           "actual": 89,
           "expected": ">= 0",
-          "duration_ms": 40,
+          "duration_ms": 27,
           "fix": null
         },
         {
@@ -120,7 +120,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 43,
+          "duration_ms": 24,
           "fix": null
         }
       ]
@@ -140,7 +140,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 22,
+          "duration_ms": 17,
           "fix": null
         },
         {
@@ -150,7 +150,7 @@
           "pass": true,
           "actual": 4,
           "expected": ">= 4",
-          "duration_ms": 17,
+          "duration_ms": 16,
           "fix": null
         },
         {
@@ -160,7 +160,7 @@
           "pass": true,
           "actual": 4,
           "expected": ">= 4",
-          "duration_ms": 18,
+          "duration_ms": 14,
           "fix": null
         },
         {
@@ -170,7 +170,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 15,
+          "duration_ms": 11,
           "fix": null
         },
         {
@@ -180,7 +180,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 13,
+          "duration_ms": 9,
           "fix": null
         },
         {
@@ -190,7 +190,7 @@
           "pass": true,
           "actual": 2,
           "expected": ">= 1",
-          "duration_ms": 21,
+          "duration_ms": 14,
           "fix": null
         },
         {
@@ -200,7 +200,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 24,
+          "duration_ms": 16,
           "fix": null
         },
         {
@@ -210,7 +210,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 27,
+          "duration_ms": 18,
           "fix": null
         },
         {
@@ -220,7 +220,7 @@
           "pass": true,
           "actual": 5,
           "expected": ">= 1",
-          "duration_ms": 22,
+          "duration_ms": 19,
           "fix": null
         },
         {
@@ -230,7 +230,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 41,
+          "duration_ms": 12,
           "fix": null
         },
         {
@@ -240,7 +240,7 @@
           "pass": true,
           "actual": 0,
           "expected": "== 0",
-          "duration_ms": 2751,
+          "duration_ms": 596,
           "fix": null
         },
         {
@@ -250,7 +250,7 @@
           "pass": true,
           "actual": 4,
           "expected": ">= 1",
-          "duration_ms": 28,
+          "duration_ms": 21,
           "fix": null
         }
       ]
@@ -270,7 +270,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 24,
+          "duration_ms": 17,
           "fix": null
         },
         {
@@ -280,7 +280,7 @@
           "pass": true,
           "actual": 16,
           "expected": ">= 10",
-          "duration_ms": 46,
+          "duration_ms": 33,
           "fix": null
         },
         {
@@ -290,7 +290,7 @@
           "pass": true,
           "actual": 5,
           "expected": ">= 1",
-          "duration_ms": 24,
+          "duration_ms": 15,
           "fix": null
         },
         {
@@ -300,7 +300,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 38,
+          "duration_ms": 16,
           "fix": null
         },
         {
@@ -310,7 +310,7 @@
           "pass": true,
           "actual": 5,
           "expected": ">= 1",
-          "duration_ms": 37,
+          "duration_ms": 15,
           "fix": null
         },
         {
@@ -320,7 +320,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 37,
+          "duration_ms": 16,
           "fix": null
         },
         {
@@ -330,7 +330,7 @@
           "pass": true,
           "actual": 5,
           "expected": ">= 1",
-          "duration_ms": 31,
+          "duration_ms": 17,
           "fix": null
         },
         {
@@ -340,7 +340,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 28,
+          "duration_ms": 17,
           "fix": null
         },
         {
@@ -350,7 +350,7 @@
           "pass": true,
           "actual": 3,
           "expected": ">= 1",
-          "duration_ms": 56,
+          "duration_ms": 19,
           "fix": null
         },
         {
@@ -360,7 +360,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 34,
+          "duration_ms": 16,
           "fix": null
         }
       ]
@@ -368,8 +368,8 @@
     {
       "name": "UX & Accessibility",
       "file": "ux-accessibility.json",
-      "total": 10,
-      "passed": 10,
+      "total": 15,
+      "passed": 15,
       "failed": 0,
       "passRate": 100,
       "checks": [
@@ -380,7 +380,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 34,
+          "duration_ms": 18,
           "fix": null
         },
         {
@@ -388,9 +388,9 @@
           "name": "All icon-only buttons have aria-label",
           "severity": "critical",
           "pass": true,
-          "actual": 19,
+          "actual": 21,
           "expected": ">= 10",
-          "duration_ms": 42,
+          "duration_ms": 19,
           "fix": null
         },
         {
@@ -398,9 +398,9 @@
           "name": "ARIA landmark roles present",
           "severity": "critical",
           "pass": true,
-          "actual": 5,
+          "actual": 6,
           "expected": ">= 4",
-          "duration_ms": 61,
+          "duration_ms": 31,
           "fix": null
         },
         {
@@ -410,7 +410,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 41,
+          "duration_ms": 22,
           "fix": null
         },
         {
@@ -420,7 +420,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 65,
+          "duration_ms": 19,
           "fix": null
         },
         {
@@ -428,9 +428,9 @@
           "name": "All inputs have associated labels",
           "severity": "high",
           "pass": true,
-          "actual": 19,
-          "expected": ">= 12",
-          "duration_ms": 123,
+          "actual": 21,
+          "expected": ">= 10",
+          "duration_ms": 27,
           "fix": null
         },
         {
@@ -440,7 +440,7 @@
           "pass": true,
           "actual": 2,
           "expected": ">= 2",
-          "duration_ms": 68,
+          "duration_ms": 31,
           "fix": null
         },
         {
@@ -450,7 +450,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 140,
+          "duration_ms": 20,
           "fix": null
         },
         {
@@ -460,7 +460,7 @@
           "pass": true,
           "actual": 3,
           "expected": ">= 3",
-          "duration_ms": 38,
+          "duration_ms": 18,
           "fix": null
         },
         {
@@ -470,7 +470,57 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 61,
+          "duration_ms": 20,
+          "fix": null
+        },
+        {
+          "id": "share-modal-pattern",
+          "name": "Share uses modal overlay pattern (not inline dropdown)",
+          "severity": "high",
+          "pass": true,
+          "actual": 1,
+          "expected": ">= 1",
+          "duration_ms": 19,
+          "fix": null
+        },
+        {
+          "id": "share-modal-aria",
+          "name": "Share modal has aria-modal and role=dialog",
+          "severity": "high",
+          "pass": true,
+          "actual": 1,
+          "expected": ">= 1",
+          "duration_ms": 30,
+          "fix": null
+        },
+        {
+          "id": "share-modal-escape",
+          "name": "Share modal closes on Escape key",
+          "severity": "medium",
+          "pass": true,
+          "actual": 2,
+          "expected": ">= 1",
+          "duration_ms": 18,
+          "fix": null
+        },
+        {
+          "id": "share-modal-grid",
+          "name": "Share channels use grid layout (not vertical list)",
+          "severity": "high",
+          "pass": true,
+          "actual": 1,
+          "expected": ">= 1",
+          "duration_ms": 20,
+          "fix": null
+        },
+        {
+          "id": "share-modal-preview",
+          "name": "Share modal includes content preview",
+          "severity": "medium",
+          "pass": true,
+          "actual": 1,
+          "expected": ">= 1",
+          "duration_ms": 19,
           "fix": null
         }
       ]
@@ -490,7 +540,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 24,
+          "duration_ms": 14,
           "fix": null
         },
         {
@@ -500,7 +550,7 @@
           "pass": true,
           "actual": 17,
           "expected": ">= 6",
-          "duration_ms": 63,
+          "duration_ms": 34,
           "fix": null
         },
         {
@@ -510,7 +560,7 @@
           "pass": true,
           "actual": 45,
           "expected": ">= 6",
-          "duration_ms": 64,
+          "duration_ms": 33,
           "fix": null
         },
         {
@@ -520,7 +570,7 @@
           "pass": true,
           "actual": 14,
           "expected": ">= 4",
-          "duration_ms": 85,
+          "duration_ms": 31,
           "fix": null
         },
         {
@@ -530,7 +580,7 @@
           "pass": true,
           "actual": 40,
           "expected": ">= 8",
-          "duration_ms": 98,
+          "duration_ms": 33,
           "fix": null
         },
         {
@@ -540,7 +590,7 @@
           "pass": true,
           "actual": 2,
           "expected": ">= 1",
-          "duration_ms": 69,
+          "duration_ms": 20,
           "fix": null
         },
         {
@@ -550,7 +600,7 @@
           "pass": true,
           "actual": 5,
           "expected": ">= 1",
-          "duration_ms": 150,
+          "duration_ms": 28,
           "fix": null
         },
         {
@@ -560,7 +610,7 @@
           "pass": true,
           "actual": 0,
           "expected": "== 0",
-          "duration_ms": 350,
+          "duration_ms": 73,
           "fix": null
         },
         {
@@ -570,7 +620,7 @@
           "pass": true,
           "actual": 0,
           "expected": "== 0",
-          "duration_ms": 106,
+          "duration_ms": 30,
           "fix": null
         },
         {
@@ -580,7 +630,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 473,
+          "duration_ms": 70,
           "fix": null
         },
         {
@@ -590,7 +640,7 @@
           "pass": true,
           "actual": 5,
           "expected": ">= 3",
-          "duration_ms": 64,
+          "duration_ms": 27,
           "fix": null
         },
         {
@@ -600,7 +650,7 @@
           "pass": true,
           "actual": 5,
           "expected": ">= 4",
-          "duration_ms": 40,
+          "duration_ms": 28,
           "fix": null
         }
       ]
