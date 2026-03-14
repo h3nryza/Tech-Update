@@ -557,37 +557,21 @@
                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
                                 </svg>
                               </button>
-                              <!-- Share dropdown -->
+                              <!-- Share dropdown (horizontal emoji row) -->
                               <div x-show="shareItem === item.id" @click.outside="shareItem = null"
                                    x-transition
-                                   class="absolute right-0 top-7 z-50 w-44 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-1 text-xs">
-                                <button @click="shareVia('copy', item)" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                  <span class="w-4 text-center">🔗</span> Copy link
-                                </button>
-                                <button @click="shareVia('email', item)" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                  <span class="w-4 text-center">✉️</span> Email
-                                </button>
-                                <button @click="shareVia('teams', item)" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                  <span class="w-4 text-center">🟦</span> Teams
-                                </button>
-                                <button @click="shareVia('slack', item)" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                  <span class="w-4 text-center">💬</span> Slack
-                                </button>
-                                <button @click="shareVia('x', item)" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                  <span class="w-4 text-center">𝕏</span> X / Twitter
-                                </button>
-                                <button @click="shareVia('linkedin', item)" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                  <span class="w-4 text-center">🔵</span> LinkedIn
-                                </button>
-                                <button @click="shareVia('reddit', item)" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                  <span class="w-4 text-center">🟠</span> Reddit
-                                </button>
-                                <button @click="shareVia('whatsapp', item)" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                  <span class="w-4 text-center">🟢</span> WhatsApp
-                                </button>
-                                <button @click="shareVia('telegram', item)" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                  <span class="w-4 text-center">✈️</span> Telegram
-                                </button>
+                                   class="absolute right-0 top-7 z-50 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 px-2 py-1.5">
+                                <div class="flex items-center gap-1">
+                                  <button @click="shareVia('copy', item)" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="Copy link" aria-label="Copy link">🔗</button>
+                                  <button @click="shareVia('email', item)" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="Email" aria-label="Email">✉️</button>
+                                  <button @click="shareVia('teams', item)" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="Teams" aria-label="Teams">🟦</button>
+                                  <button @click="shareVia('slack', item)" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="Slack" aria-label="Slack">💬</button>
+                                  <button @click="shareVia('x', item)" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="X / Twitter" aria-label="X">𝕏</button>
+                                  <button @click="shareVia('linkedin', item)" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="LinkedIn" aria-label="LinkedIn">🔵</button>
+                                  <button @click="shareVia('reddit', item)" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="Reddit" aria-label="Reddit">🟠</button>
+                                  <button @click="shareVia('whatsapp', item)" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="WhatsApp" aria-label="WhatsApp">🟢</button>
+                                  <button @click="shareVia('telegram', item)" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="Telegram" aria-label="Telegram">✈️</button>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -690,31 +674,17 @@
                   </button>
                   <div x-show="shareItem === item.id" @click.outside="shareItem = null"
                        x-transition
-                       class="absolute right-0 bottom-8 z-50 w-44 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-1 text-xs">
-                    <button @click="shareVia('copy', item)" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <span class="w-4 text-center">🔗</span> Copy link
-                    </button>
-                    <button @click="shareVia('email', item)" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <span class="w-4 text-center">✉️</span> Email
-                    </button>
-                    <button @click="shareVia('teams', item)" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <span class="w-4 text-center">🟦</span> Teams
-                    </button>
-                    <button @click="shareVia('slack', item)" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <span class="w-4 text-center">💬</span> Slack
-                    </button>
-                    <button @click="shareVia('x', item)" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <span class="w-4 text-center">𝕏</span> X / Twitter
-                    </button>
-                    <button @click="shareVia('linkedin', item)" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <span class="w-4 text-center">🔵</span> LinkedIn
-                    </button>
-                    <button @click="shareVia('whatsapp', item)" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <span class="w-4 text-center">🟢</span> WhatsApp
-                    </button>
-                    <button @click="shareVia('telegram', item)" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <span class="w-4 text-center">✈️</span> Telegram
-                    </button>
+                       class="absolute right-0 bottom-8 z-50 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 px-2 py-1.5">
+                    <div class="flex items-center gap-1">
+                      <button @click="shareVia('copy', item)" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="Copy link" aria-label="Copy link">🔗</button>
+                      <button @click="shareVia('email', item)" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="Email" aria-label="Email">✉️</button>
+                      <button @click="shareVia('teams', item)" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="Teams" aria-label="Teams">🟦</button>
+                      <button @click="shareVia('slack', item)" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="Slack" aria-label="Slack">💬</button>
+                      <button @click="shareVia('x', item)" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="X / Twitter" aria-label="X">𝕏</button>
+                      <button @click="shareVia('linkedin', item)" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="LinkedIn" aria-label="LinkedIn">🔵</button>
+                      <button @click="shareVia('whatsapp', item)" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="WhatsApp" aria-label="WhatsApp">🟢</button>
+                      <button @click="shareVia('telegram', item)" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="Telegram" aria-label="Telegram">✈️</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -751,26 +721,15 @@
           </button>
           <div x-show="showSharePage" @click.outside="showSharePage = false"
                x-transition
-               class="absolute left-0 bottom-10 z-50 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-1 text-xs">
-            <div class="px-3 py-1.5 text-[10px] text-gray-400 font-bold uppercase tracking-wider border-b border-gray-100 dark:border-gray-700">Share this page</div>
-            <button @click="sharePageVia('copy')" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-              <span class="w-4 text-center">🔗</span> Copy link
-            </button>
-            <button @click="sharePageVia('email')" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-              <span class="w-4 text-center">✉️</span> Email
-            </button>
-            <button @click="sharePageVia('teams')" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-              <span class="w-4 text-center">🟦</span> Teams
-            </button>
-            <button @click="sharePageVia('slack')" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-              <span class="w-4 text-center">💬</span> Slack
-            </button>
-            <button @click="sharePageVia('x')" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-              <span class="w-4 text-center">𝕏</span> X / Twitter
-            </button>
-            <button @click="sharePageVia('linkedin')" class="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-              <span class="w-4 text-center">🔵</span> LinkedIn
-            </button>
+               class="absolute left-0 bottom-10 z-50 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 px-2 py-1.5">
+            <div class="flex items-center gap-1">
+              <button @click="sharePageVia('copy')" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="Copy link" aria-label="Copy link">🔗</button>
+              <button @click="sharePageVia('email')" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="Email" aria-label="Email">✉️</button>
+              <button @click="sharePageVia('teams')" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="Teams" aria-label="Teams">🟦</button>
+              <button @click="sharePageVia('slack')" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="Slack" aria-label="Slack">💬</button>
+              <button @click="sharePageVia('x')" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="X / Twitter" aria-label="X">𝕏</button>
+              <button @click="sharePageVia('linkedin')" class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-base" title="LinkedIn" aria-label="LinkedIn">🔵</button>
+            </div>
           </div>
         </div>
       </div>
