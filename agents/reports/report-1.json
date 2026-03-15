@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-14T21:09:20.354Z",
+  "timestamp": "2026-03-15T15:07:13.205Z",
   "summary": {
     "totalAgents": 5,
     "totalChecks": 59,
@@ -30,7 +30,7 @@
           "pass": true,
           "actual": 0,
           "expected": "== 0",
-          "duration_ms": 35,
+          "duration_ms": 236,
           "fix": null
         },
         {
@@ -40,7 +40,7 @@
           "pass": true,
           "actual": 0,
           "expected": "== 0",
-          "duration_ms": 29,
+          "duration_ms": 50,
           "fix": null
         },
         {
@@ -50,7 +50,7 @@
           "pass": true,
           "actual": 0,
           "expected": "== 0",
-          "duration_ms": 29,
+          "duration_ms": 39,
           "fix": null
         },
         {
@@ -60,7 +60,7 @@
           "pass": true,
           "actual": 0,
           "expected": "<= 5",
-          "duration_ms": 40,
+          "duration_ms": 35,
           "fix": null
         },
         {
@@ -80,7 +80,7 @@
           "pass": true,
           "actual": 0,
           "expected": "<= 3",
-          "duration_ms": 31,
+          "duration_ms": 38,
           "fix": null
         },
         {
@@ -90,7 +90,7 @@
           "pass": true,
           "actual": 0,
           "expected": "== 0",
-          "duration_ms": 26,
+          "duration_ms": 25,
           "fix": null
         },
         {
@@ -100,7 +100,7 @@
           "pass": true,
           "actual": 3,
           "expected": "<= 20",
-          "duration_ms": 35,
+          "duration_ms": 32,
           "fix": null
         },
         {
@@ -110,7 +110,7 @@
           "pass": true,
           "actual": 89,
           "expected": ">= 0",
-          "duration_ms": 27,
+          "duration_ms": 26,
           "fix": null
         },
         {
@@ -140,7 +140,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 17,
+          "duration_ms": 15,
           "fix": null
         },
         {
@@ -150,7 +150,7 @@
           "pass": true,
           "actual": 4,
           "expected": ">= 4",
-          "duration_ms": 16,
+          "duration_ms": 15,
           "fix": null
         },
         {
@@ -160,7 +160,7 @@
           "pass": true,
           "actual": 4,
           "expected": ">= 4",
-          "duration_ms": 14,
+          "duration_ms": 16,
           "fix": null
         },
         {
@@ -180,7 +180,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 9,
+          "duration_ms": 11,
           "fix": null
         },
         {
@@ -190,7 +190,7 @@
           "pass": true,
           "actual": 2,
           "expected": ">= 1",
-          "duration_ms": 14,
+          "duration_ms": 18,
           "fix": null
         },
         {
@@ -200,7 +200,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 16,
+          "duration_ms": 14,
           "fix": null
         },
         {
@@ -210,7 +210,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 18,
+          "duration_ms": 14,
           "fix": null
         },
         {
@@ -220,7 +220,7 @@
           "pass": true,
           "actual": 5,
           "expected": ">= 1",
-          "duration_ms": 19,
+          "duration_ms": 16,
           "fix": null
         },
         {
@@ -230,7 +230,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 12,
+          "duration_ms": 11,
           "fix": null
         },
         {
@@ -240,7 +240,7 @@
           "pass": true,
           "actual": 0,
           "expected": "== 0",
-          "duration_ms": 596,
+          "duration_ms": 667,
           "fix": null
         },
         {
@@ -250,7 +250,7 @@
           "pass": true,
           "actual": 4,
           "expected": ">= 1",
-          "duration_ms": 21,
+          "duration_ms": 22,
           "fix": null
         }
       ]
@@ -270,7 +270,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 17,
+          "duration_ms": 18,
           "fix": null
         },
         {
@@ -280,7 +280,7 @@
           "pass": true,
           "actual": 16,
           "expected": ">= 10",
-          "duration_ms": 33,
+          "duration_ms": 32,
           "fix": null
         },
         {
@@ -290,7 +290,7 @@
           "pass": true,
           "actual": 5,
           "expected": ">= 1",
-          "duration_ms": 15,
+          "duration_ms": 16,
           "fix": null
         },
         {
@@ -310,7 +310,7 @@
           "pass": true,
           "actual": 5,
           "expected": ">= 1",
-          "duration_ms": 15,
+          "duration_ms": 21,
           "fix": null
         },
         {
@@ -320,7 +320,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 16,
+          "duration_ms": 11,
           "fix": null
         },
         {
@@ -330,7 +330,7 @@
           "pass": true,
           "actual": 5,
           "expected": ">= 1",
-          "duration_ms": 17,
+          "duration_ms": 14,
           "fix": null
         },
         {
@@ -340,7 +340,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 17,
+          "duration_ms": 15,
           "fix": null
         },
         {
@@ -350,7 +350,7 @@
           "pass": true,
           "actual": 3,
           "expected": ">= 1",
-          "duration_ms": 19,
+          "duration_ms": 15,
           "fix": null
         },
         {
@@ -360,7 +360,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 16,
+          "duration_ms": 15,
           "fix": null
         }
       ]
@@ -380,7 +380,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 18,
+          "duration_ms": 15,
           "fix": null
         },
         {
@@ -390,7 +390,7 @@
           "pass": true,
           "actual": 21,
           "expected": ">= 10",
-          "duration_ms": 19,
+          "duration_ms": 15,
           "fix": null
         },
         {
@@ -400,7 +400,7 @@
           "pass": true,
           "actual": 6,
           "expected": ">= 4",
-          "duration_ms": 31,
+          "duration_ms": 24,
           "fix": null
         },
         {
@@ -410,7 +410,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 22,
+          "duration_ms": 15,
           "fix": null
         },
         {
@@ -420,7 +420,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 19,
+          "duration_ms": 15,
           "fix": null
         },
         {
@@ -450,7 +450,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 20,
+          "duration_ms": 15,
           "fix": null
         },
         {
@@ -460,7 +460,7 @@
           "pass": true,
           "actual": 3,
           "expected": ">= 3",
-          "duration_ms": 18,
+          "duration_ms": 16,
           "fix": null
         },
         {
@@ -470,7 +470,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 20,
+          "duration_ms": 14,
           "fix": null
         },
         {
@@ -480,7 +480,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 19,
+          "duration_ms": 15,
           "fix": null
         },
         {
@@ -490,7 +490,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 30,
+          "duration_ms": 25,
           "fix": null
         },
         {
@@ -500,7 +500,7 @@
           "pass": true,
           "actual": 2,
           "expected": ">= 1",
-          "duration_ms": 18,
+          "duration_ms": 15,
           "fix": null
         },
         {
@@ -510,7 +510,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 20,
+          "duration_ms": 16,
           "fix": null
         },
         {
@@ -520,7 +520,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 19,
+          "duration_ms": 16,
           "fix": null
         }
       ]
@@ -540,7 +540,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 14,
+          "duration_ms": 9,
           "fix": null
         },
         {
@@ -550,7 +550,7 @@
           "pass": true,
           "actual": 17,
           "expected": ">= 6",
-          "duration_ms": 34,
+          "duration_ms": 23,
           "fix": null
         },
         {
@@ -560,7 +560,7 @@
           "pass": true,
           "actual": 45,
           "expected": ">= 6",
-          "duration_ms": 33,
+          "duration_ms": 20,
           "fix": null
         },
         {
@@ -570,7 +570,7 @@
           "pass": true,
           "actual": 14,
           "expected": ">= 4",
-          "duration_ms": 31,
+          "duration_ms": 18,
           "fix": null
         },
         {
@@ -580,7 +580,7 @@
           "pass": true,
           "actual": 40,
           "expected": ">= 8",
-          "duration_ms": 33,
+          "duration_ms": 19,
           "fix": null
         },
         {
@@ -590,7 +590,7 @@
           "pass": true,
           "actual": 2,
           "expected": ">= 1",
-          "duration_ms": 20,
+          "duration_ms": 13,
           "fix": null
         },
         {
@@ -600,7 +600,7 @@
           "pass": true,
           "actual": 5,
           "expected": ">= 1",
-          "duration_ms": 28,
+          "duration_ms": 19,
           "fix": null
         },
         {
@@ -610,7 +610,7 @@
           "pass": true,
           "actual": 0,
           "expected": "== 0",
-          "duration_ms": 73,
+          "duration_ms": 68,
           "fix": null
         },
         {
@@ -620,7 +620,7 @@
           "pass": true,
           "actual": 0,
           "expected": "== 0",
-          "duration_ms": 30,
+          "duration_ms": 18,
           "fix": null
         },
         {
@@ -630,7 +630,7 @@
           "pass": true,
           "actual": 1,
           "expected": ">= 1",
-          "duration_ms": 70,
+          "duration_ms": 65,
           "fix": null
         },
         {
@@ -650,7 +650,7 @@
           "pass": true,
           "actual": 5,
           "expected": ">= 4",
-          "duration_ms": 28,
+          "duration_ms": 27,
           "fix": null
         }
       ]
