@@ -125,7 +125,7 @@
           </button>
         </div>
         <div class="flex items-center gap-1.5 flex-wrap">
-          <template x-for="p in [{id:'all',label:'All'},{id:'today',label:'Today'},{id:'yesterday',label:'Yesterday'},{id:'this-week',label:'This Week'},{id:'last-week',label:'Last Week'},{id:'last-30',label:'30d'},{id:'last-90',label:'90d'}]">
+          <template x-for="p in [{id:'all',label:'All'},{id:'today',label:'Today'},{id:'yesterday',label:'Yesterday'},{id:'this-week',label:'This Week'},{id:'last-week',label:'Last Week'},{id:'last-30',label:'30d'},{id:'last-90',label:'90d'}]" :key="p.id">
             <button @click="setDatePreset(p.id)"
                     :class="datePreset === p.id ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'"
                     class="px-3 py-1.5 text-xs font-medium rounded-lg transition-colors"
@@ -524,7 +524,7 @@
                 </tr>
               </thead>
               <tbody>
-                <template x-for="(item, idx) in filteredItems" :key="item.id">
+                <template x-for="(item, idx) in filteredItems" :key="item.id + '-' + idx">
                   <tr :class="idx % 2 === 0 ? 'bg-white dark:bg-gray-900' : 'bg-gray-50/50 dark:bg-gray-950/50'"
                       class="border-b border-gray-100 dark:border-gray-800/50 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-colors">
                     <template x-for="col in columnOrder" :key="col">
@@ -607,7 +607,7 @@
 
       <!-- Card View (mobile) -->
       <div x-show="!loading && !error && filteredItems.length > 0" class="md:hidden space-y-3">
-        <template x-for="item in filteredItems" :key="item.id">
+        <template x-for="(item, idx) in filteredItems" :key="item.id + '-m-' + idx">
           <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-4 shadow-sm">
             <div class="flex items-start justify-between gap-2 mb-2">
               <a :href="item.url" target="_blank" rel="noopener noreferrer"

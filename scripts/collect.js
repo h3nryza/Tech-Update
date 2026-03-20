@@ -328,6 +328,7 @@ async function main() {
     existingItems = existing.items || [];
   }
   const existingIds = new Set(existingItems.map(i => i.id));
+  const seenIds = new Set(existingIds); // Track IDs across the entire batch
 
   const allItems = [];
   let fetched = 0;
@@ -340,7 +341,9 @@ async function main() {
       items = await fetchRssFeed(source);
     }
 
-    const newItems = items.filter(i => !existingIds.has(i.id));
+    // Deduplicate against existing AND within current batch
+    const newItems = items.filter(i => !seenIds.has(i.id));
+    newItems.forEach(i => seenIds.add(i.id));
     allItems.push(...newItems);
     fetched++;
 
