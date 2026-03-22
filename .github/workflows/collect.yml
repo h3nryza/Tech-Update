@@ -39,23 +39,8 @@ jobs:
       - name: Build search index
         run: cd scripts && node build.js
 
-      - name: Validate data integrity
-        run: |
-          node -e "
-            const fs = require('fs');
-            const news = JSON.parse(fs.readFileSync('data/news.json'));
-            const sources = JSON.parse(fs.readFileSync('data/sources.json'));
-            console.log('News items:', news.items.length);
-            console.log('Sources:', sources.sources.length);
-            let issues = 0;
-            news.items.forEach(function(item, i) {
-              if (!item.id) { console.log('Missing id at index', i); issues++; }
-              if (!item.title) { console.log('Missing title at index', i); issues++; }
-              if (!item.url) { console.log('Missing url at index', i); issues++; }
-            });
-            if (issues > 0) { console.error(issues + ' data issues found'); process.exit(1); }
-            console.log('All items valid');
-          "
+      - name: Run test suite
+        run: cd scripts && node test-feeds.js
 
       - name: Commit and push
         run: |

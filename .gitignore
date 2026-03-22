@@ -19,3 +19,15 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+
+# Internal / private (not for public repo)
+.henry/
+.security/
+.claude/
+memory.md
+workflow.md
+nice_to_have.md
+
+# Test artifacts (transient)
+agents/reports/
+agents/browser/test-results/

@@ -6,170 +6,179 @@ This document describes the security posture of Tech Update, a static tech news 
 
 ## Architecture Security
 
-Tech Update is a **static site** with no server-side code, no backend API, no authentication system, and no database. This architecture eliminates entire classes of vulnerabilities by design:
+Tech Update is a **static site** with no server-side code, no backend API, no authentication system, and no database. This eliminates entire classes of vulnerabilities:
 
-- **No backend** -- No server-side injection (SQL, command, LDAP), no session management flaws, no server misconfiguration.
-- **No authentication** -- No credential storage, no password reset flows, no session tokens to steal.
-- **No PII collection** -- The site does not collect, store, or process any personally identifiable information. There are no forms, no user accounts, and no analytics cookies.
-- **No user-generated content** -- All content is sourced from RSS feeds and committed to the repository via automated pipelines.
+- **No backend** -- No server-side injection, session management, or misconfiguration
+- **No authentication** -- No credentials, sessions, or tokens
+- **No PII** -- No forms, accounts, or analytics cookies
+- **No user-generated content** -- All content from RSS feeds via automated pipeline
 
-The attack surface is limited to the static files served by GitHub Pages and the CI/CD pipeline that produces them.
+The attack surface is limited to static files on GitHub Pages and the CI/CD pipeline.
 
 ---
 
-## CDN Dependency Risk Mitigations
+## DevSecOps Pipeline
 
-The site loads four external scripts from CDNs (Tailwind CSS, Alpine.js, jsPDF, jsPDF-AutoTable). Two controls are in place to mitigate supply-chain risk:
+### Security Pipeline (`security.yml`)
 
-### Subresource Integrity (SRI) Hashes
+Runs on **every push, every PR, and daily at 04:00 UTC**.
 
-All CDN-loaded scripts include `integrity` attributes with SHA-384 hashes. If a CDN is compromised and serves modified JavaScript, the browser will refuse to execute the script.
+```mermaid
+flowchart TD
+    TRIGGER["Push / PR / Daily / Manual"] --> PARALLEL
 
-Covered scripts:
-- `jspdf.umd.min.js` (cdnjs.cloudflare.com)
-- `jspdf.plugin.autotable.min.js` (cdnjs.cloudflare.com)
-- `@alpinejs/collapse` (cdn.jsdelivr.net)
-- `alpinejs` (cdn.jsdelivr.net)
+    subgraph PARALLEL["Parallel Security Checks"]
+        AUDIT["npm audit<br/>HIGH + CRITICAL"]
+        GITLEAKS["gitleaks<br/>full git history"]
+        TRIVY["Trivy<br/>CVE scanner"]
+        LICENSE["license-checker<br/>GPL/AGPL blocked"]
+    end
+
+    PARALLEL --> GATE{"Security Gate"}
+    GATE -->|ALL PASS| DEPLOY["Deploy to GitHub Pages"]
+    GATE -->|ANY FAIL| BLOCK["Deploy BLOCKED"]
+
+    style GATE fill:#f44336,color:#fff
+    style DEPLOY fill:#4CAF50,color:#fff
+    style BLOCK fill:#f44336,color:#fff
+```
+
+### Security Tools
+
+| Tool | Purpose | Threshold | Schedule |
+|------|---------|-----------|----------|
+| **npm audit** | Dependency CVEs | HIGH / CRITICAL | Push, PR, daily |
+| **gitleaks** | Leaked secrets in git history | Any match | Push, PR, daily |
+| **Trivy** | Filesystem vulnerability scan | HIGH / CRITICAL | Push, PR, daily |
+| **CodeQL** | Static application security testing | security-extended | Push, PR, weekly |
+| **license-checker** | License compliance | GPL/AGPL/SSPL/EUPL blocked | Push, PR, daily |
+| **Dependency Review** | New dep review in PRs | HIGH, deny GPL | PRs only |
+| **OSSF Scorecard** | Repo security posture grade | Advisory | Weekly |
+| **Dependabot** | Auto-PRs for outdated deps | All severities | Daily |
+
+### Security Gate
+
+The deploy to GitHub Pages **only proceeds** when ALL of these pass:
+1. `dependency-audit`: SUCCESS
+2. `secrets-scan`: SUCCESS
+3. `trivy-scan`: SUCCESS
+4. `license-check`: SUCCESS
+
+### Deploy Gate
+
+`pages.yml` uses `workflow_run` to trigger only after the Security Pipeline completes successfully. Additionally, a pre-deploy secrets pattern scan runs as a final check.
+
+---
+
+## CDN Security
+
+### Subresource Integrity (SRI)
+
+All CDN scripts include `integrity` attributes with SHA-384 hashes:
+- `jspdf.umd.min.js`
+- `jspdf.plugin.autotable.min.js`
+- `@alpinejs/collapse`
+- `alpinejs`
 
 ### Content Security Policy (CSP)
 
-A `<meta http-equiv="Content-Security-Policy">` tag restricts resource loading:
+```
+default-src 'self';
+script-src  'self' cdn.tailwindcss.com cdn.jsdelivr.net cdnjs.cloudflare.com 'unsafe-eval';
+style-src   'self' 'unsafe-inline' cdn.tailwindcss.com;
+img-src     'self' data:;
+connect-src 'self';
+font-src    'self';
+```
 
-| Directive     | Allowed Origins                                                            |
-|---------------|---------------------------------------------------------------------------|
-| `default-src` | `'self'`                                                                  |
-| `script-src`  | `'self'`, `cdn.tailwindcss.com`, `cdn.jsdelivr.net`, `cdnjs.cloudflare.com`, `'unsafe-eval'` |
-| `style-src`   | `'self'`, `'unsafe-inline'`, `cdn.tailwindcss.com`                        |
-| `img-src`     | `'self'`, `data:`                                                         |
-| `connect-src` | `'self'`                                                                  |
-| `font-src`    | `'self'`                                                                  |
-
-Note: `unsafe-eval` is required by Tailwind CSS's JIT compiler running in the browser. This is acceptable because no user input reaches `eval()`.
+Note: `unsafe-eval` is required by Tailwind's browser JIT. No user input reaches `eval()`.
 
 ---
 
 ## RSS Feed Injection Prevention
 
-RSS feeds are the primary external data input. Two layers prevent injection:
-
-1. **Server-side sanitization** -- The `collect.js` Node.js script processes feed data before writing it to `data/news.json`. Content is stored as plain text fields (title, URL, date, source name).
-
-2. **Client-side auto-escaping** -- Alpine.js `x-text` directives are used to render feed content in the browser. `x-text` automatically escapes HTML entities, preventing any stored XSS from rendering. The project does not use `x-html` for user-facing content.
+1. **Server-side**: `collect.js` stores feed data as plain text fields
+2. **Client-side**: Alpine.js `x-text` auto-escapes HTML entities. `x-html` is never used for feed content.
 
 ---
 
 ## Data Integrity
 
-All data files (`data/news.json`, `data/sources.json`, `data/config.json`) are:
-
-- **Git-tracked** -- Every change is recorded in version history with full audit trail.
-- **Pipeline-validated** -- The collection workflow validates data integrity before committing:
-  - Every news item must have `id`, `title`, and `url` fields.
-  - Source and item counts are logged.
-  - Validation failure causes the pipeline to exit without committing.
-- **Committed by a bot account** -- Automated data updates are committed by `github-actions[bot]`, making it easy to distinguish automated changes from human changes.
-
----
-
-## CI/CD Security Pipeline
-
-### security.yml
-
-Runs on every push to `main`, every PR targeting `main`, and weekly on Sunday at 04:00 UTC.
-
-| Job                | Tool                            | Purpose                                               |
-|--------------------|---------------------------------|-------------------------------------------------------|
-| Lint & Audit       | `npm audit --audit-level=high`  | Fail on high/critical dependency vulnerabilities      |
-| Lint & Audit       | ESLint security rules           | Detect `eval()`, `new Function()`, implied eval       |
-| Secrets Scan       | gitleaks                        | Scan full git history for leaked secrets              |
-| CodeQL SAST        | github/codeql-action            | Static analysis with `security-and-quality` queries   |
-| Dependency Review  | actions/dependency-review-action| Block PRs introducing high-severity or GPL/AGPL deps  |
-| License Compliance | license-checker                 | Fail on GPL-3.0, AGPL, SSPL, EUPL licenses           |
-| SBOM Generation    | @cyclonedx/cyclonedx-npm        | Produce CycloneDX SBOM artifact (90-day retention)    |
-
-### codeql.yml
-
-Dedicated CodeQL workflow with `security-extended` and `security-and-quality` query suites. Runs on push, PR, and weekly (Sunday 05:00 UTC, offset from security.yml).
-
-### pages.yml (Deploy)
-
-The deployment workflow includes a pre-deploy secrets scan that checks committed files for common secret patterns (AWS keys, OpenAI keys, GitHub PATs, hardcoded passwords).
-
-### collect.yml (Daily Pipeline)
-
-Runs `npm audit --audit-level=high` before collecting data, catching dependency vulnerabilities in the collection scripts.
+- **Git-tracked** -- full audit trail on all changes
+- **Pipeline-validated** -- 35-point test suite (`test-feeds.js`) runs before every commit
+- **Bot commits** -- automated changes use `github-actions[bot]` identity
 
 ---
 
 ## Dependabot Configuration
 
-Dependabot is configured (`.github/dependabot.yml`) with two ecosystems:
-
-| Ecosystem        | Directory   | Schedule | PR Limit | Labels                  |
-|------------------|-------------|----------|----------|-------------------------|
-| npm              | `/scripts`  | Weekly   | 10       | `dependencies`          |
-| github-actions   | `/`         | Weekly   | 5        | `dependencies`, `ci`    |
-
-This ensures both Node.js packages and GitHub Actions are kept up to date with automated PRs.
+| Ecosystem | Directory | Schedule | PR Limit | Grouping |
+|-----------|-----------|----------|----------|----------|
+| npm | `/scripts` | Daily | 10 | Minor + patch grouped |
+| npm | `/agents/browser` | Daily | 5 | Minor + patch grouped |
+| github-actions | `/` | Daily | 5 | All grouped |
 
 ---
 
-## Branch Protection Rules
+## Branch Protection
 
-The `main` branch should be configured with the following protections:
+Recommended protections for `main`:
 
-- Require pull request reviews before merging (at least 1 approval).
-- Require status checks to pass before merging (security pipeline, CodeQL).
-- Require branches to be up to date before merging.
-- Do not allow force pushes.
-- Do not allow deletions.
+- Require PR reviews (1 approval minimum)
+- Require status checks: Security Pipeline, CodeQL
+- Require branches up to date
+- No force pushes
+- No deletions
+
+---
+
+## Sensitive Files
+
+The following are excluded from the public repo via `.gitignore`:
+
+| Pattern | Reason |
+|---------|--------|
+| `.henry/` | Personal engineering notes |
+| `.security/` | Internal security audit artifacts |
+| `.claude/` | Claude Code local settings |
+| `memory.md`, `workflow.md`, `nice_to_have.md` | Internal planning docs |
+| `agents/reports/` | Transient test results |
+| `agents/browser/test-results/` | Playwright artifacts |
 
 ---
 
 ## Vulnerability Reporting
 
-If you discover a security vulnerability in this project:
+1. **Do not open a public issue.**
+2. Open a **private security advisory** via GitHub Security tab.
+3. Include: description, reproduction steps, impact, suggested fix.
+4. Maintainer acknowledges within 48 hours, fix within 7 days.
 
-1. **Do not open a public issue.** Security issues should not be disclosed publicly before a fix is available.
-2. Open a **private security advisory** via the repository's Security tab on GitHub (Settings > Security > Advisories > New draft security advisory).
-3. Alternatively, contact the maintainer directly via the email listed in the repository profile.
-4. Include:
-   - Description of the vulnerability.
-   - Steps to reproduce.
-   - Potential impact.
-   - Suggested fix (if any).
+---
 
-The maintainer will acknowledge receipt within 48 hours and aim to provide a fix or mitigation within 7 days.
+## OWASP Top 10
+
+| Category | Status | Notes |
+|----------|--------|-------|
+| A01: Broken Access Control | N/A | Public static site |
+| A02: Cryptographic Failures | Pass | No sensitive data |
+| A03: Injection | Pass | `x-text` escaping, no server-side |
+| A04: Insecure Design | Pass | Static architecture |
+| A05: Security Misconfiguration | Pass | CSP, SRI, minimal CI permissions |
+| A06: Vulnerable Components | Pass | Dependabot + audit + Trivy + daily scans |
+| A07: Authentication | N/A | No auth system |
+| A08: Integrity Failures | Pass | SRI, git-tracked data, pipeline validation |
+| A09: Logging/Monitoring | Pass | GH Actions logs, git history, OSSF Scorecard |
+| A10: SSRF | N/A | No server-side requests in production |
 
 ---
 
 ## Compliance Summary
 
-### WCAG 2.1 AA (Partial)
-
-The following accessibility measures are implemented:
-
-- Skip-to-content link for keyboard navigation.
-- ARIA landmarks (`role="navigation"`, `role="main"`, `role="search"`).
-- ARIA labels on interactive elements (theme toggle, search input, sidebar).
-- `aria-live` regions for dynamic content updates (search results, news feed).
-- Minimum 44px tap targets for touch accessibility.
-- Keyboard-accessible search input with proper labeling.
-- Dark mode respects `prefers-color-scheme` system preference.
-
-Status: **Partial compliance.** A full WCAG audit has not been conducted. Known gaps may exist in color contrast ratios under certain theme configurations and in complex interactive components.
-
-### OWASP Top 10
-
-| Category                                | Status | Notes                                                    |
-|-----------------------------------------|--------|----------------------------------------------------------|
-| A01: Broken Access Control              | N/A    | No access control (public static site)                   |
-| A02: Cryptographic Failures             | Pass   | No sensitive data stored or transmitted                  |
-| A03: Injection                          | Pass   | No server-side processing; client uses `x-text` escaping |
-| A04: Insecure Design                    | Pass   | Static architecture minimizes attack surface             |
-| A05: Security Misconfiguration          | Pass   | CSP headers, SRI hashes, minimal permissions in CI       |
-| A06: Vulnerable/Outdated Components     | Pass   | Dependabot + npm audit + dependency review on PRs        |
-| A07: Identification/Authentication      | N/A    | No authentication system                                 |
-| A08: Software/Data Integrity Failures   | Pass   | SRI on CDN scripts, git-tracked data, pipeline validation|
-| A09: Security Logging/Monitoring        | Pass   | GitHub Actions logs, git history as audit trail          |
-| A10: Server-Side Request Forgery (SSRF) | N/A    | No server-side HTTP requests in production               |
+| Standard | Status |
+|----------|--------|
+| OWASP Top 10 | Pass (9/10 N/A or Pass) |
+| Supply chain (SLSA) | Partial (SRI, Dependabot, SBOM) |
+| Secrets management | Pass (gitleaks + pre-deploy + .gitignore) |
+| License compliance | Pass (GPL/AGPL/SSPL/EUPL blocked) |
+| WCAG 2.1 AA | Partial (ARIA, skip nav, keyboard) |

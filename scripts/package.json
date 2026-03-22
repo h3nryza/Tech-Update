@@ -7,7 +7,10 @@
     "parse": "node parse-sources.js",
     "collect": "node collect.js",
     "build": "node build.js",
-    "full": "node collect.js && node build.js"
+    "full": "node parse-sources.js && node collect.js && node build.js",
+    "test": "node test-feeds.js",
+    "test:verbose": "node test-feeds.js --verbose",
+    "test:live": "node test-feeds.js --live --verbose"
   },
   "dependencies": {
     "rss-parser": "^3.13.0"
