@@ -3,16 +3,33 @@ updates:
   - package-ecosystem: "npm"
     directory: "/scripts"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     open-pull-requests-limit: 10
     labels:
       - "dependencies"
+    groups:
+      minor-and-patch:
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: "npm"
+    directory: "/agents/browser"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+    groups:
+      minor-and-patch:
+        update-types: ["minor", "patch"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
       - "ci"
+    groups:
+      actions:
+        patterns: ["*"]

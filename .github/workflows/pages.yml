@@ -1,7 +1,10 @@
 name: Deploy to GitHub Pages
 
 on:
-  push:
+  # Only deploy after security pipeline passes on main
+  workflow_run:
+    workflows: ["Security Pipeline"]
+    types: [completed]
     branches: [main]
   workflow_dispatch:
 
@@ -16,6 +19,10 @@ concurrency:
 
 jobs:
   deploy:
+    # Only deploy if security pipeline succeeded (or manual dispatch)
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -23,15 +30,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Security - check for secrets in committed files
+      - name: Block deploy if secrets detected
         run: |
-          # Check for common secret patterns in tracked files
-          PATTERNS="AKIA[0-9A-Z]{16}|sk-[a-zA-Z0-9]{48}|ghp_[a-zA-Z0-9]{36}|password\s*=\s*['\"][^'\"]+['\"]"
+          PATTERNS='AKIA[0-9A-Z]{16}|sk-[a-zA-Z0-9]{48}|ghp_[a-zA-Z0-9]{36}|password\s*=\s*['"'"'""][^'"'"'""]+['"'"'""]'
           if grep -rEI "$PATTERNS" --include='*.js' --include='*.json' --include='*.html' --include='*.yml' . 2>/dev/null | grep -v node_modules | grep -v '.github/workflows'; then
-            echo "WARNING: Possible secrets detected in files!"
-          else
-            echo "No secrets detected"
+            echo "::error::Secrets detected in committed files — blocking deploy"
+            exit 1
           fi
+          echo "No secrets detected"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

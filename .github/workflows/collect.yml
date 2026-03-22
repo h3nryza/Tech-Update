@@ -27,10 +27,10 @@ jobs:
       - name: Install dependencies
         run: cd scripts && npm ci
 
-      - name: Audit dependencies
-        run: cd scripts && npm audit --audit-level=high || true
+      - name: Audit dependencies (blocking)
+        run: cd scripts && npm audit --audit-level=high
 
-      - name: Parse sources
+      - name: Parse sources from feeds.md
         run: cd scripts && node parse-sources.js
 
       - name: Collect news
@@ -47,7 +47,6 @@ jobs:
             const sources = JSON.parse(fs.readFileSync('data/sources.json'));
             console.log('News items:', news.items.length);
             console.log('Sources:', sources.sources.length);
-            // Check for required fields
             let issues = 0;
             news.items.forEach(function(item, i) {
               if (!item.id) { console.log('Missing id at index', i); issues++; }
