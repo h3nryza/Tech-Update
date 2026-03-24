@@ -42,7 +42,7 @@ A "source" is an RSS feed, blog, YouTube channel, podcast, or newsletter. **All 
    node test-feeds.js      # Validates everything
    ```
 
-7. Or just commit -- the daily pipeline picks it up at 06:00 SAST.
+7. Or just commit -- the daily Lambda pipeline picks it up at 06:00 SAST.
 
 ### Example: Adding an AWS Security Blog
 
@@ -150,7 +150,8 @@ Sections are the top-level groupings (Products, Topics, Software). This requires
 | All feed sources | `feeds.md` |
 | UI tabs and hierarchy | `data/config.json` |
 | YouTube channel IDs | `scripts/parse-sources.js` (YOUTUBE_CHANNELS) |
-| Collection schedule | `.github/workflows/collect.yml` |
+| Daily collection (Lambda) | `lambda/handler.js` + `lambda/template.yaml` |
+| Manual collection fallback | `.github/workflows/collect.yml` |
 | Generated source data | `data/sources.json` (do not edit directly) |
 
 ---
@@ -159,25 +160,30 @@ Sections are the top-level groupings (Products, Topics, Software). This requires
 
 ```mermaid
 sequenceDiagram
-    participant GH as GitHub Actions
-    participant FM as feeds.md
-    participant SJ as sources.json
-    participant NJ as news.json
+    participant EB as EventBridge (04:00 UTC)
+    participant L as AWS Lambda
+    participant GH as GitHub API
+    participant SEC as Security Pipeline
     participant GP as GitHub Pages
 
-    GH->>FM: Read feeds.md
-    FM->>SJ: parse-sources.js generates sources.json
-    SJ->>NJ: collect.js fetches feeds -> news.json
-    NJ->>NJ: build.js creates index + stats
-    NJ->>NJ: test-feeds.js validates (35 checks)
-    GH->>GH: git commit & push
-    GH->>GP: Security gate passes -> deploy
+    EB->>L: Daily trigger
+    L->>GH: Download feeds.md + data/
+    L->>L: parse-sources.js -> collect.js -> build.js
+    L->>L: test-feeds.js (35 checks)
+    L->>GH: Commit updated data/ files
+    GH->>SEC: Push triggers security pipeline
+    SEC->>SEC: gitleaks + Trivy + audit + license
+    alt All pass
+        SEC->>GP: Deploy to GitHub Pages
+    else Any fail
+        SEC-->>GH: Deploy blocked
+    end
 ```
 
 ### When Do Changes Take Effect?
 
 | Change | When it appears |
 |---|---|
-| Edit `feeds.md` (new source) | Next daily collection run (06:00 SAST) |
+| Edit `feeds.md` (new source) | Next daily Lambda run (06:00 SAST) |
 | Edit `config.json` (new tab) | Next page load after push to main |
 | Edit `index.html` or `js/` | Next page load after push to main |

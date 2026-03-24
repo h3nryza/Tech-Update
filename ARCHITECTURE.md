@@ -8,8 +8,7 @@ Tech Update is a **zero-backend static site** that aggregates tech news from 300
 - **Tailwind CSS** for styling (loaded from CDN)
 - **No build step** -- pure HTML + JS served directly by GitHub Pages
 - **feeds.md** as the single source of truth for all feed sources
-
-All data collection happens server-side via Node.js scripts running in GitHub Actions. The browser fetches pre-built JSON and renders client-side.
+- **AWS Lambda** for daily collection (replaces GitHub Actions cron to save build minutes)
 
 ---
 
@@ -24,15 +23,16 @@ graph TB
         BLOG["Blogs & Newsletters"]
     end
 
-    subgraph "GitHub Actions (Daily 04:00 UTC)"
+    subgraph "AWS Lambda (Daily 04:00 UTC)"
+        DL["Download feeds.md + data/<br/>from GitHub API"]
         PARSE["parse-sources.js<br/>reads feeds.md"]
         COLLECT["collect.js<br/>fetches all feeds"]
         BUILD["build.js<br/>search index + stats"]
         TEST["test-feeds.js<br/>35-point validation"]
-        COMMIT["git commit & push"]
+        COMMIT["Commit via GitHub<br/>Git Data API"]
     end
 
-    subgraph "Security Pipeline"
+    subgraph "Security Pipeline (on every push)"
         AUDIT["npm audit"]
         GITLEAKS["gitleaks<br/>secrets scan"]
         TRIVY["Trivy<br/>CVE scanner"]
@@ -59,7 +59,7 @@ graph TB
     RD --> COLLECT
     BLOG --> COLLECT
 
-    PARSE --> COLLECT --> BUILD --> TEST --> COMMIT
+    DL --> PARSE --> COLLECT --> BUILD --> TEST --> COMMIT
     COMMIT --> GATE
     GATE --> HTML
 
@@ -78,6 +78,58 @@ graph TB
 
 ---
 
+## Collection Pipeline
+
+Daily collection is handled by an **AWS Lambda function** (`lambda/handler.js`) triggered by EventBridge at 04:00 UTC. The GitHub Actions `collect.yml` is kept as a manual fallback.
+
+```mermaid
+sequenceDiagram
+    participant EB as EventBridge
+    participant L as Lambda
+    participant GH as GitHub API
+    participant SEC as Security Pipeline
+    participant GP as GitHub Pages
+
+    EB->>L: Daily trigger (04:00 UTC)
+    L->>GH: Download feeds.md + data/*.json
+    L->>L: parse-sources.js
+    L->>L: collect.js (fetch 305 feeds)
+    L->>L: build.js (index + stats)
+    L->>L: test-feeds.js (35 checks)
+    L->>GH: Atomic commit (Git Data API)
+    GH->>SEC: Push triggers security.yml
+    par Security checks
+        SEC->>SEC: npm audit
+        SEC->>SEC: gitleaks
+        SEC->>SEC: Trivy
+        SEC->>SEC: License check
+    end
+    alt All pass
+        SEC->>GP: Deploy to GitHub Pages
+    else Any fail
+        SEC-->>GH: Deploy blocked
+    end
+```
+
+### Pipeline Steps
+
+| Step | Script | Input | Output | Purpose |
+|------|--------|-------|--------|---------|
+| 1 | `parse-sources.js` | `feeds.md` | `data/sources.json` | Parse markdown into structured source registry |
+| 2 | `collect.js` | `data/sources.json` | `data/news.json` | Fetch RSS/Atom/Reddit, deduplicate, generate TLDRs |
+| 3 | `build.js` | `data/news.json` | `data/index.json`, `data/stats.json` | Build search index and statistics |
+| 4 | `test-feeds.js` | All data files | Exit code 0/1 | 35-point validation suite |
+
+### Cost Comparison
+
+| | GitHub Actions | AWS Lambda |
+|---|---|---|
+| Runtime | ~8 min/day | ~5 min/day |
+| Monthly cost | ~240 build minutes | ~$0.12 |
+| Monitoring | Actions logs | CloudWatch + alarm |
+
+---
+
 ## Data Flow
 
 ```mermaid
@@ -90,15 +142,6 @@ flowchart LR
     C --> F
     D --> F
 ```
-
-### Pipeline Steps
-
-| Step | Script | Input | Output | Purpose |
-|------|--------|-------|--------|---------|
-| 1 | `parse-sources.js` | `feeds.md` | `data/sources.json` | Parse markdown into structured source registry |
-| 2 | `collect.js` | `data/sources.json` | `data/news.json` | Fetch RSS/Atom/Reddit, deduplicate, generate TLDRs |
-| 3 | `build.js` | `data/news.json` | `data/index.json`, `data/stats.json` | Build search index and statistics |
-| 4 | `test-feeds.js` | All data files | Exit code 0/1 | 35-point validation suite |
 
 ---
 
@@ -170,18 +213,27 @@ Tech-Update/
 |   |-- build.js               Builds index + stats
 |   |-- test-feeds.js          35-point test suite
 |   |-- package.json           Dependencies (rss-parser)
+|-- lambda/
+|   |-- handler.js             Lambda entry point (orchestrates pipeline)
+|   |-- template.yaml          SAM/CloudFormation template
+|   |-- build.sh               Packages scripts + deps into dist/
+|   |-- deploy.sh              Validates + deploys via SAM
+|   |-- package.json           Lambda dependencies
 |-- .github/
 |   |-- workflows/
-|   |   |-- collect.yml        Daily collection (04:00 UTC)
+|   |   |-- collect.yml        Manual fallback collection (cron moved to Lambda)
 |   |   |-- security.yml       Daily security pipeline (gitleaks, Trivy, audit)
 |   |   |-- pages.yml          Deploy to GitHub Pages (gated on security)
 |   |   |-- codeql.yml         CodeQL SAST analysis
 |   |   |-- scorecard.yml      OSSF Scorecard
 |   |-- dependabot.yml         Daily dependency updates
 |-- Documentation/
+|   |-- SDLC.md                Full SDLC with mermaid + draw.io diagrams
 |   |-- SECURITY.md            Security model and policies
+|   |-- TESTING.md             Test strategy and inventory
 |   |-- DEPLOYMENT.md          Deployment guide
 |   |-- CONTRIBUTING.md        Contribution guidelines
+|   |-- sdlc.drawio            Editable SDLC diagram (open in draw.io)
 |-- products/                  Per-product source detail pages
 |-- topics/                    Per-topic source detail pages
 ```
