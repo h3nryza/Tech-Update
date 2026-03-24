@@ -359,7 +359,13 @@ function testRedditFormat() {
   const sources = readJson('data/sources.json');
   if (!sources) { skip('Reddit format', 'Missing sources.json'); return; }
 
-  const redditSources = sources.sources.filter(s => s.type === 'forum' && s.url.includes('reddit.com'));
+  const redditSources = sources.sources.filter(s => {
+    if (s.type !== 'forum') return false;
+    try {
+      const host = new URL(s.url).hostname;
+      return host === 'www.reddit.com' || host === 'reddit.com';
+    } catch { return false; }
+  });
   log(`${redditSources.length} Reddit sources`);
 
   const noJson = redditSources.filter(s => !s.rss_url || !s.rss_url.endsWith('.json?limit=25'));
@@ -443,6 +449,10 @@ async function testRssReachability() {
     const batch = withRss.slice(i, i + 10);
     const results = await Promise.allSettled(
       batch.map(async (s) => {
+        // Only fetch http(s) URLs (protocol guard)
+        if (!s.rss_url.startsWith('https://') && !s.rss_url.startsWith('http://')) {
+          return { name: s.name, url: s.rss_url, status: 0, ok: false, error: 'invalid protocol' };
+        }
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 10000);
         try {

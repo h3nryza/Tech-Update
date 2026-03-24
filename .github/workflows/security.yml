@@ -20,7 +20,6 @@ permissions:
 jobs:
   # ──────────────────────────────────────────────
   # Audit npm dependencies — BLOCKING
-  # Fails on high or critical vulnerabilities
   # ──────────────────────────────────────────────
   dependency-audit:
     name: Dependency Audit
@@ -32,10 +31,10 @@ jobs:
         working-directory: scripts
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 20
           cache: npm
@@ -49,7 +48,6 @@ jobs:
 
   # ──────────────────────────────────────────────
   # Scan for leaked secrets — BLOCKING
-  # Full git history scan with gitleaks
   # ──────────────────────────────────────────────
   secrets-scan:
     name: Secrets Scan (gitleaks)
@@ -58,18 +56,18 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
 
       - name: Run gitleaks
-        uses: gitleaks/gitleaks-action@v2
+        uses: gitleaks/gitleaks-action@dcedce43c6f43de0b836d1fe38946645c9c638dc # v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # ──────────────────────────────────────────────
   # Trivy filesystem vulnerability scanner — BLOCKING
-  # Scans for CVEs in dependencies + IaC misconfigs
+  # Pinned to v0.35.0 (safe — see GHSA advisory)
   # ──────────────────────────────────────────────
   trivy-scan:
     name: Trivy Vulnerability Scan
@@ -79,10 +77,10 @@ jobs:
       security-events: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Run Trivy (filesystem mode)
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
         with:
           scan-type: fs
           scan-ref: .
@@ -92,7 +90,7 @@ jobs:
           output: trivy-results.sarif
 
       - name: Upload Trivy SARIF to GitHub Security
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@480db559a14342288b67e54bd959dd52dc3ee68f # v3
         if: always()
         with:
           sarif_file: trivy-results.sarif
@@ -110,10 +108,10 @@ jobs:
         working-directory: scripts
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 20
           cache: npm
@@ -144,10 +142,10 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Dependency review
-        uses: actions/dependency-review-action@v4
+        uses: actions/dependency-review-action@ce3cf9537a52e8119d91fd484ab5b8a807627bf8 # v4.6.0
         with:
           fail-on-severity: high
           deny-licenses: GPL-3.0, AGPL-3.0
@@ -166,10 +164,10 @@ jobs:
         working-directory: scripts
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 20
           cache: npm
@@ -197,10 +195,10 @@ jobs:
         working-directory: scripts
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 20
           cache: npm
@@ -213,7 +211,7 @@ jobs:
         run: npx --yes @cyclonedx/cyclonedx-npm --output-file ../sbom.json --output-format JSON
 
       - name: Upload SBOM artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: sbom-cyclonedx
           path: sbom.json
@@ -221,7 +219,6 @@ jobs:
 
   # ──────────────────────────────────────────────
   # Security gate — all blocking jobs must pass
-  # Other workflows can depend on this single job
   # ──────────────────────────────────────────────
   security-gate:
     name: Security Gate

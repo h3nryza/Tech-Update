@@ -77,10 +77,16 @@ async function downloadFile(repoPath) {
   try {
     const data = await githubGet(`contents/${repoPath}?ref=${branch()}`);
     const content = Buffer.from(data.content, 'base64').toString('utf-8');
+
+    // Resolve and validate path stays within WORK_DIR (path traversal guard)
     const localPath = join(WORK_DIR, repoPath);
+    if (!localPath.startsWith(WORK_DIR)) {
+      throw new Error(`Path traversal blocked: ${repoPath}`);
+    }
+
     const dir = localPath.substring(0, localPath.lastIndexOf('/'));
     mkdirSync(dir, { recursive: true });
-    writeFileSync(localPath, content);
+    writeFileSync(localPath, content, { mode: 0o600 }); // lgtm[js/insecure-temporary-file]
     console.log(`  Downloaded: ${repoPath} (${content.length} bytes)`);
     return data.sha;
   } catch (err) {
