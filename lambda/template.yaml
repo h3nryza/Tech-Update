@@ -1,0 +1,106 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Tech Update daily news collection Lambda.
+  Replaces GitHub Actions cron to save build minutes.
+
+Globals:
+  Function:
+    Timeout: 600          # 10 minutes (feeds take time)
+    MemorySize: 512       # 512MB is plenty for RSS parsing
+    Runtime: nodejs20.x
+
+Parameters:
+  GitHubToken:
+    Type: String
+    Description: GitHub PAT with repo write access (stored in SSM/Secrets Manager)
+    NoEcho: true
+  GitHubOwner:
+    Type: String
+    Default: h3nryza
+    Description: GitHub repository owner
+  GitHubRepo:
+    Type: String
+    Default: Tech-Update
+    Description: GitHub repository name
+  GitHubBranch:
+    Type: String
+    Default: main
+    Description: Branch to commit to
+  Schedule:
+    Type: String
+    Default: "cron(0 4 * * ? *)"
+    Description: EventBridge cron expression (default 04:00 UTC daily)
+
+Resources:
+
+  # ─── Lambda Function ──────────────────────────────────────────
+  CollectFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: tech-update-collect
+      Handler: handler.handler
+      CodeUri: ./dist/
+      Description: Daily tech news collection from RSS feeds, YouTube, Reddit
+      Environment:
+        Variables:
+          GITHUB_TOKEN: !Ref GitHubToken
+          GITHUB_OWNER: !Ref GitHubOwner
+          GITHUB_REPO: !Ref GitHubRepo
+          GITHUB_BRANCH: !Ref GitHubBranch
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - logs:CreateLogGroup
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+              Resource: !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:*"
+      Events:
+        DailySchedule:
+          Type: Schedule
+          Properties:
+            Schedule: !Ref Schedule
+            Description: Daily news collection trigger
+            Enabled: true
+      Tags:
+        Project: tech-update
+        Environment: production
+        ManagedBy: sam
+
+  # ─── CloudWatch Log Group (30-day retention) ──────────────────
+  CollectLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${CollectFunction}"
+      RetentionInDays: 30
+
+  # ─── CloudWatch Alarm (on errors) ─────────────────────────────
+  CollectErrorAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: tech-update-collect-errors
+      AlarmDescription: Fires when the collection Lambda errors
+      Namespace: AWS/Lambda
+      MetricName: Errors
+      Dimensions:
+        - Name: FunctionName
+          Value: !Ref CollectFunction
+      Statistic: Sum
+      Period: 86400       # 24 hours
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+
+Outputs:
+  FunctionArn:
+    Description: Lambda function ARN
+    Value: !GetAtt CollectFunction.Arn
+  FunctionName:
+    Description: Lambda function name
+    Value: !Ref CollectFunction
+  LogGroup:
+    Description: CloudWatch log group
+    Value: !Ref CollectLogGroup

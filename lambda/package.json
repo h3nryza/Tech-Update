@@ -1,0 +1,14 @@
+{
+  "name": "tech-update-lambda",
+  "version": "1.0.0",
+  "description": "AWS Lambda function for daily Tech Update news collection",
+  "type": "module",
+  "main": "handler.js",
+  "scripts": {
+    "build": "npm ci && ./build.sh",
+    "deploy": "./deploy.sh"
+  },
+  "dependencies": {
+    "rss-parser": "^3.13.0"
+  }
+}

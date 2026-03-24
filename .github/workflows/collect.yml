@@ -1,9 +1,8 @@
-name: Collect Tech News
+name: Collect Tech News (Manual / Fallback)
 
+# Daily collection is handled by AWS Lambda (lambda/handler.js).
+# This workflow is kept as a manual fallback and for local testing.
 on:
-  schedule:
-    # 6am SAST = 4am UTC daily
-    - cron: '0 4 * * *'
   workflow_dispatch:
 
 permissions:

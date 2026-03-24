@@ -31,3 +31,7 @@ nice_to_have.md
 # Test artifacts (transient)
 agents/reports/
 agents/browser/test-results/
+
+# Lambda build artifacts
+lambda/dist/
+lambda/.aws-sam/
