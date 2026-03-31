@@ -5,7 +5,7 @@ document.addEventListener('alpine:init', function() {
       // State
       tabs: window.TABS,
       tagColors: window.TAG_COLORS,
-      activeTab: 'aws',
+      activeTab: 'all',
       items: [],
       sources: [],
       loading: true,
@@ -121,6 +121,9 @@ document.addEventListener('alpine:init', function() {
 
       // Computed
       get activeTabDef() {
+        if (this.activeTab === 'all') {
+          return { id: 'all', label: 'All Items', icon: '\uD83D\uDCCB', tags: [], group: 'all' };
+        }
         var self = this;
         return this.tabs.find(function(t) { return t.id === self.activeTab; }) || this.tabs[0];
       },
@@ -128,14 +131,15 @@ document.addEventListener('alpine:init', function() {
       get filteredItems() {
         var items = this.items;
 
-        // Filter by tab tags (unless global search with query)
-        if (!this.globalSearch || !this.searchQuery) {
+        // "All Items" tab or global search with query — skip tag filtering
+        if (this.activeTab === 'all') {
+          // No tag filtering — show everything
+        } else if (!this.globalSearch || !this.searchQuery) {
           var tabDef = this.activeTabDef;
           var tabTags = tabDef.tags;
           var filterSource = tabDef.filter_source;
           items = items.filter(function(item) {
             var tagMatch = item.tags.some(function(t) { return tabTags.indexOf(t) !== -1; });
-            // If this tab filters by source name (e.g., provider tabs), also check source
             if (filterSource) {
               return tagMatch && item.source_name && item.source_name.indexOf(filterSource) !== -1;
             }
@@ -165,6 +169,7 @@ document.addEventListener('alpine:init', function() {
       get tabCounts() {
         var counts = {};
         var allItems = this.items;
+        counts['all'] = allItems.length;
         this.tabs.forEach(function(tab) {
           counts[tab.id] = allItems.filter(function(item) {
             var tagMatch = item.tags.some(function(t) { return tab.tags.indexOf(t) !== -1; });

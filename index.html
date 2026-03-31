@@ -339,6 +339,23 @@
           </button>
         </div>
 
+        <!-- All Items -->
+        <button id="tab-all" @click="setTab('all')"
+                :class="activeTab === 'all'
+                  ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-l-2 border-blue-500'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 border-l-2 border-transparent'"
+                class="flex items-center justify-between w-full px-3 py-2 text-sm rounded-r-lg transition-all duration-150 mb-1">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="text-base flex-shrink-0">&#x1F4CB;</span>
+            <span class="truncate font-medium">All Items</span>
+          </div>
+          <span class="text-[10px] ml-2 flex-shrink-0 tabular-nums"
+                :class="activeTab === 'all' ? 'text-blue-500 dark:text-blue-400 font-semibold' : 'text-gray-400 dark:text-gray-600'"
+                x-text="tabCounts['all'] || 0"></span>
+        </button>
+
+        <div class="border-t border-gray-100 dark:border-gray-800 my-2"></div>
+
         <!-- Products group -->
         <div>
           <button @click="expandProducts = !expandProducts"
